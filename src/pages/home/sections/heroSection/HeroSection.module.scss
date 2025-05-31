@@ -1,0 +1,57 @@
+.heroSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../images/heroImage.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+    position: relative;
+    top: 0;
+    left: 0;
+    font-family: "Montserrat", sans-serif;
+    .container {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+            color: white;
+        .textContainer {
+            width: 30%;
+            h1 {
+                font-weight: 700;
+                line-height: 72px;
+                font-size: 60px;
+            }
+            p{
+                  font-family: "Inter", sans-serif;
+                  font-size: 20px;
+                  line-height:27px ;
+                  font-weight:500 ;
+            }
+            .app{
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                span{
+                   
+                  font-family: "Inter", sans-serif;
+                  font-size: 18px;
+                  line-height:21px ;
+                  font-weight:700 ; 
+                }
+            }
+            .btn{
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+
+        }
+    }
+
+}
