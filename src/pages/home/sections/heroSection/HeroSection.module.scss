@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     height: 100vh;
     background-image: url('../images/heroImage.jpg');
     background-position: center;
@@ -14,44 +14,277 @@
     top: 0;
     left: 0;
     font-family: "Montserrat", sans-serif;
+
     .container {
-        width: 80%;
+        width: 75%;
         display: flex;
         justify-content: space-between;
         align-items: center;
-            color: white;
+        color: white;
+
         .textContainer {
-            width: 30%;
+            width: 40%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+
             h1 {
                 font-weight: 700;
-                line-height: 72px;
-                font-size: 60px;
+                line-height: 82px;
+                font-size: 70px;
+                padding-top: 30px;
             }
-            p{
-                  font-family: "Inter", sans-serif;
-                  font-size: 20px;
-                  line-height:27px ;
-                  font-weight:500 ;
+
+            p {
+                font-family: "Inter", sans-serif;
+                font-size: 23px;
+                line-height: 33px;
+                font-weight: 500;
+                margin: 30px 0;
+                padding: 10px 0 30px 0;
+                letter-spacing: 1px;
             }
-            .app{
+
+            .app {
                 display: flex;
                 gap: 15px;
                 align-items: center;
-                span{
-                   
-                  font-family: "Inter", sans-serif;
-                  font-size: 18px;
-                  line-height:21px ;
-                  font-weight:700 ; 
+                margin: 15px 0 20px 0;
+                padding-top: 30px;
+
+                img {
+                    width: 10%;
+                }
+
+                span {
+
+                    font-family: "Inter", sans-serif;
+                    font-size: 18px;
+                    line-height: 21px;
+                    font-weight: 700;
                 }
             }
-            .btn{
+
+            .btn {
                 display: flex;
                 gap: 10px;
                 align-items: center;
+                padding-bottom: 30px;
+
+                button {
+                    width: 49%;
+                    height: 65px;
+                    background-color: transparent;
+                    border-radius: 13px;
+                    color: white;
+                    font-size: 18px;
+                    line-height: 21px;
+                    font-weight: 600;
+                    font-family: "Inter", sans-serif;
+
+                }
+
+                .btn1 {
+                    background-color: rgb(239, 163, 29);
+                    border: none;
+                    transition: all 0.1s ease-in;
+
+                    &:hover {
+                        background-color: rgb(215, 142, 15);
+                    }
+                }
+
+                .btn2 {
+                    border: 1px solid rgb(177, 105, 100);
+                    color: rgb(177, 105, 100);
+                    transition: all 0.1s ease-in;
+
+                    &:hover {
+                        background-color: rgb(239, 163, 29);
+                        color: rgb(23, 20, 31);
+                    }
+                }
             }
 
         }
+
+        .calculator {
+            width: 30%;
+            padding: 30px;
+            background-color: white;
+            border-radius: 30px;
+            h2 {
+                font-family: "Inter", sans-serif;
+                font-size: 22px;
+                line-height: 22px;
+                font-weight: 700;
+                color: rgb(68, 68, 68);
+                text-align: center;
+                margin: 30px 0;
+            }
+
+            label {
+                font-family: "Inter", sans-serif;
+                font-size: 18px;
+                line-height: 21px;
+                font-weight: 600;
+                color: rgb(68, 68, 68);
+            }
+            select {
+                padding: 25px;
+                font-size: 18px;
+                line-height: 21px;
+                font-weight: 500;
+                color: rgb(68, 68, 68);
+                border: none;
+                font-family: "Inter", sans-serif;
+                background-color: rgb(245, 245, 245);
+ 
+                }
+                
+                
+            .country {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 0 30px;
+
+            }
+
+            .precinct {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 0 30px;
+                margin: 20px 0;
+            }
+
+            .weight {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 0 30px;
+
+                input {
+                    padding: 25px;
+                    background-color: rgb(245, 245, 245);
+                    border: none;
+                    font-family: "Inter", sans-serif;
+                    font-size: 18px;
+                    line-height: 21px;
+                    font-weight: 500;
+                    color: rgb(68, 68, 68);
+
+                }
+            }
+
+            button {
+                width: 85%;
+                display: block;
+                margin: 0 auto;
+                height: 80px;
+                border: none;
+                background-color: rgb(242, 169, 0);
+                color: white;
+                border-radius: 10px;
+                font-family: "Inter", sans-serif;
+                font-size: 20px;
+                line-height: 30px;
+                font-weight: 700;
+                margin: 30px;
+            }
+
+            }
+
+
+
+        }
+    }
+    @media screen and (min-width:300px) and (max-width:700px) {
+        .heroSection {
+    padding: 30px 0;
+    display: flex;
+    height: auto;
+    min-height: 100vh;
+    justify-content: center;
+    position: relative;
+    .container {
+        width: 100%;
+        padding: 30px 0 ;
+       flex-direction: column;
+        .textContainer {
+            width: 95%;
+            padding: 30px 0;
+            justify-content: center;
+            h1 {
+                line-height: 36px;
+                font-size: 30px;
+                width: 80%;
+                display: block;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            p {
+                font-size: 14px;
+                line-height: 21px;
+                margin: 5px 0;
+                padding:0;
+            }
+
+            .app {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                span {
+                    font-size: 14px;
+                }
+            }
+
+            .btn {
+                button {
+                    height: 50px;
+                    border-radius: 8px;
+                    font-size: 14px;
+
+                }
+            }
+
+        }
+
+        .calculator {
+            width: 90%;
+            padding: 0px;
+            position: absolute;
+            top: 90vh;
+            margin: 0 auto;
+            select {
+                padding: 20px;
+                font-size: 14px;
+                }
+                
+                
+
+
+
+            .weight {
+                input {
+                    padding: 20px;
+                    font-size: 14px;
+                }
+            }
+
+            button {
+                width: 75%;
+                height: 70px;
+            }
+
+            }
+
+
+
+        }
+    }
     }
 
-}
