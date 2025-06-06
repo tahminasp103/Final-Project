@@ -4,6 +4,7 @@ import HeroSection from './sections/heroSection/HeroSection';
 import AutoDeclaration from './sections/autoDeclaration/AutoDeclaration';
 import CargoService from './sections/cargoService/CargoService';
 import ServiceArea from './sections/serviceArea/ServiceArea';
+import Shops from './sections/shops/Shops';
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
     <AutoDeclaration/>
     <CargoService/>
     <ServiceArea/>
+    <Shops/>
    </Layout>
   );
 }
