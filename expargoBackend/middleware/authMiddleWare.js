@@ -1,23 +1,24 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
-const userControlAuth = async (req, res, next) => {
-    let token;
+export const userControlAuth = async (req, res, next) => {
+  const token = req.cookies?.jwt;
 
-    token = req.cookies.jwt;
+  if (!token) {
+    return res.status(401).json({ message: 'Token tapılmadı. Giriş edin.' });
+  }
 
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await User.findById(decoded.userId).select('-password');
-            next();
-        } catch (error) {
-            console.error(error);
-            res.status(401).json({ message: 'Unauthorized - invalid token' });
-        }
-    } else {
-        res.status(401).json({ message: 'Unauthorized - token not found' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.userId).select('-password');
+
+    if (!req.user) {
+      return res.status(401).json({ message: 'İstifadəçi tapılmadı' });
     }
-};
 
-export { userControlAuth };
+    next();
+  } catch (error) {
+    console.error('JWT yoxlama xətası:', error);
+    return res.status(401).json({ message: 'Token yanlışdır və ya vaxtı keçib' });
+  }
+};
