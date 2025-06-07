@@ -5,6 +5,7 @@ import AutoDeclaration from './sections/autoDeclaration/AutoDeclaration';
 import CargoService from './sections/cargoService/CargoService';
 import ServiceArea from './sections/serviceArea/ServiceArea';
 import Shops from './sections/shops/Shops';
+import Install from './sections/install/Install';
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
     <CargoService/>
     <ServiceArea/>
     <Shops/>
+    <Install/>
    </Layout>
   );
 }

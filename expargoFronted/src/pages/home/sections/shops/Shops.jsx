@@ -36,7 +36,7 @@ const Shops = () => {
     if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 60; // sürüşmə sürəti
+    const walk = (x - startX) * 2; // sürüşmə sürəti
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -55,12 +55,12 @@ const Shops = () => {
     { src: 'https://expargo.com/assets/img/slide/expargo-logos-19.png', link: 'https://www.stradivarius.com/tr/' },
     { src: 'https://expargo.com/assets/img/slide/expargo-logos-24.png', link: 'https://www.e-bebek.com/' },
     { src: 'https://expargo.com/assets/img/slide/expargo-logos-26.png', link: 'https://www.gratis.com/' },
-    { src: 'https://expargo.com/assets/img/slide/badge-01.png', link: 'https://www.mavicompany.com/en' },
-    { src: 'https://expargo.com/assets/img/slide/badge-02.png', link: 'https://www.stradivarius.com/tr/' },
-    { src: 'https://expargo.com/assets/img/slide/badge-03.png', link: 'https://www.e-bebek.com/' },
-    { src: 'https://expargo.com/assets/img/slide/badge-05.png', link: 'https://www.gratis.com/' },
-    { src: 'https://expargo.com/assets/img/slide/badge-06.png', link: 'https://www.ebay.com/' },
-    { src: 'https://expargo.com/assets/img/slide/badge-07.png', link: 'https://www.amazon.com/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-01.png', link: 'https://www.ebay.com/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-02.png', link: 'https://www.amazon.com/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-03.png', link: 'https://www.asos.com/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-05.png', link: 'https://www.sephora.com/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-06.png', link: 'https://www.victoriassecret.com/az/' },
+    { src: 'https://expargo.com/assets/img/slide/badge-07.png', link: 'https://az.iherb.com/' },
   ];
 
   return (
