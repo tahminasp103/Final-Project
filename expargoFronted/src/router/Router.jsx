@@ -5,6 +5,7 @@ import LoginPage from '../pages/loginPage/LoginPage';
 import Registration from '../pages/loginPage/sections/registration/Registration';
 import LoginUser from '../pages/loginPage/sections/loginUser/LoginUser';
 import Admin from '../pages/admin/Admin';
+import DashboardHome from '../pages/dashboardHome/DashboardHome';
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
     <Route path='/signup' element={<Registration/>}/>
     <Route path='/loginUser' element={<LoginUser/>}/>
     <Route path='/admin' element={<Admin/>}/>
+    <Route path='/dashboardHome' element={<DashboardHome/>}/>
    </Routes>
    </BrowserRouter>
   );

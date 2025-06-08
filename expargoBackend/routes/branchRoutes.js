@@ -6,7 +6,7 @@ import {
   update,
   remove
 } from '../controllers/branchController.js';
-import { userControlAuth } from '../middleware/authMiddleware.js';
+import { userControlAuth } from '../middleware/authMiddleWare.js';
 
 const router = express.Router();
 

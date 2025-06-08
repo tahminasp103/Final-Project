@@ -1,0 +1,199 @@
+// src/pages/dashboardHome/DashboardHome.jsx
+import React, { useEffect } from 'react';
+import { TbPointFilled } from "react-icons/tb";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setCountry,
+    setPrecinct,
+    setWeight,
+    calculatePrice
+} from '../../redux/reducers/CalculatorSlice';
+import style from './DashboardHome.module.scss';
+import ExpargoMenu from '../loginPage/sections/expargoMenu/ExpargoMenu';
+import { FaRegCircleUser } from "react-icons/fa6";
+import { CiLocationOn } from 'react-icons/ci';
+import { FaManatSign, FaTurkishLiraSign } from 'react-icons/fa6';
+import { FiPlusCircle } from 'react-icons/fi';
+import { BiDollar } from 'react-icons/bi';
+import { IoIosArrowForward } from 'react-icons/io';
+import { IoPricetagsOutline, IoNewspaperOutline } from 'react-icons/io5';
+import { LuPhone } from 'react-icons/lu';
+import { FaRegCircleQuestion } from 'react-icons/fa6';
+import { FiMap } from "react-icons/fi"; import map from './images/map.png';
+import sms from './images/sms.png';
+import kargo from './images/kargo.png';
+import taxiGo from './images/taxiGo.png';
+import print from './images/print.png';
+import { FiCopy } from "react-icons/fi";
+const DashboardHome = () => {
+    const dispatch = useDispatch();
+     useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      dispatch(setCredentials(JSON.parse(storedUser)));
+    }
+  }, [dispatch]);
+
+    const {
+        prices,
+        country,
+        precinct,
+        weight,
+        totalPriceManat,
+        totalPriceDollar
+    } = useSelector(state => state.calculator);
+
+    // Hər dəyişiklikdə yenidən kalkulyasiya edilir
+    useEffect(() => {
+        dispatch(calculatePrice());
+    }, [dispatch, country, precinct, weight]);
+
+    const handleCountryChange = e => dispatch(setCountry(e.target.value));
+    const handlePrecinctChange = e => dispatch(setPrecinct(e.target.value));
+    const handleWeightChange = e => dispatch(setWeight(e.target.value));
+
+    const precinctOptions = prices[country] ? Object.keys(prices[country]) : [];
+    const user = useSelector(state => state.auth.user);
+    return (
+        <div className={style.dashboardHome}>
+            <ExpargoMenu />
+            <div className={style.container}>
+                <div className={style.userInformation}>
+                    <div className={style.informationContainer}>
+                        <FaRegCircleUser />
+                        <div className={style.userContainer}>
+                            {user
+                                ? <p>{user.id} • {user.name} {user.surname}</p>
+                                : <p>Xahiş olunur daxil olun.</p>}
+                            <div className={style.line}></div>
+                            <span>Standart tarif</span>
+                            <div className={style.line}></div>
+                        </div>
+                        <FiCopy />
+                        <IoIosArrowForward />
+                    </div>
+                    <p>Filial və tarif paketinizi dəyişmək üçün sağdakı oxa klikləyin.</p>
+                </div>
+                {/* Balans bölməsi */}
+                <div className={style.homeCards}>
+                    <div className={style.balance}>
+                        <h2>Balans</h2>
+                        <div className={style.card}>
+                            <div className={style.image}>
+                                <img src="https://expargo.com/assets/img/flags/usa.svg" alt="USD" />
+                            </div>
+                            <h3>USD</h3>
+                            <p><FiPlusCircle /> <BiDollar className={style.money} /> 0</p>
+                        </div>
+                        <div className={style.line} />
+                        <div className={style.card}>
+                            <div className={style.image}>
+                                <img src="https://expargo.com/assets/img/flags/igdir.svg" alt="TRY" />
+                            </div>
+                            <h3>TRY</h3>
+                            <p><FiPlusCircle /> <FaTurkishLiraSign className={style.money} /> 0</p>
+                        </div>
+                        <div className={style.line} />
+                        <div className={style.card}>
+                            <div className={style.image}>
+                                <img src="https://dash.expargo.com/assets/img/flags/squares/az.svg" alt="AZN" />
+                            </div>
+                            <h3>AZN</h3>
+                            <p><FiPlusCircle /> <FaManatSign className={style.money} /> 0</p>
+                        </div>
+                        <p>USD - beynəlxalq daşınma, AZN - Daxili Karqo ödənişləri üçün nəzərdə tutulub. Aldığınız xidmətə müvafiq balans artırmanız xahiş olunur.</p>
+                    </div>
+
+                    {/* Xarici ünvanlar */}
+                    <div className={style.myForeigAdresses}>
+                        <h2>Xarici ünvanlarım</h2>
+                        {['Türkiyə', 'ABŞ', 'Iğdır'].map(loc => (
+                            <div key={loc} className={style.adressCard}>
+                                <img src={`https://expargo.com/assets/img/flags/${loc === 'ABŞ' ? 'usa' : 'igdir'}.svg`} alt={loc} />
+                                <div className={style.line} />
+                                <h3>{loc}</h3>
+                                <IoIosArrowForward />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Kalkulyator */}
+                    <div className={style.calculator}>
+                        <h2>Daşınma qiymətini hesabla</h2>
+
+                        <div className={style.field}>
+                            <select id="country-select" value={country} onChange={handleCountryChange}>
+  {Object.keys(prices).map(c => (
+    <option key={c} value={c}>{c}</option>
+  ))}
+</select>
+                        </div>
+
+                        <div className={style.field}>
+                            <select id="precinct-select" value={precinct} onChange={handlePrecinctChange}>
+                                {precinctOptions.map(p => (
+                                    <option key={p} value={p}>{p}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className={style.field}>
+                            <input
+                                id="weight-input"
+                                type="number"
+                                min="0"
+                                step="0.1"
+                                placeholder="Çəki (kq)"
+                                value={weight}
+                                onChange={handleWeightChange}
+                            />
+                        </div>
+
+                        <button className={style.resultButton}>
+                            ${totalPriceDollar}  <TbPointFilled /> {totalPriceManat} ₼
+                        </button>
+                        <div className={style.line}>
+
+                        </div>
+                    </div>
+                </div>
+
+                {/* Sürətli keçidlər & digər bölmələr */}
+                <div className={style.links}>
+                    <div className={style.fastLinks}>
+                        <h2>Sürətli keçidlər</h2>
+                        <div className={style.cards}>
+                            {[map, kargo, print, taxiGo, sms].map((img, idx) => (
+                                <div key={idx} className={style.card}>
+                                    <img src={img} alt="" />
+                                    <p>{['Daxili kargo', 'Ekspress', 'Çap xidməti', 'TaxiGo', 'Onay Kodu'][idx]}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className={style.other}>
+                        <div className={style.text}>
+                            <h2>Digər</h2><p>Daha çox <IoIosArrowForward /></p></div>
+                        <div className={style.otherContainer}>
+                            {[
+                                { icon: FiMap, label: 'Xidmət şəbəkəsi' },
+                                { icon: IoPricetagsOutline, label: 'Tariflər' },
+                                { icon: LuPhone, label: 'Əlaqə' },
+                                { icon: FaRegCircleQuestion, label: 'FAQ' },
+                                { icon: IoNewspaperOutline, label: 'Xəbərlər' },
+                            ].map((item, idx) => (
+                                <div key={idx} className={style.otherCard}>
+                                    <div className={style.icon}> <item.icon /></div>
+                                    <p>{item.label}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    );
+};
+
+export default DashboardHome;

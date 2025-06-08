@@ -1,5 +1,3 @@
-// src/features/auth/authApiSlice.js
-
 import { apiSlice } from "./apiSlice";
 
 const AUTH_URL = '/api/users/auth';
