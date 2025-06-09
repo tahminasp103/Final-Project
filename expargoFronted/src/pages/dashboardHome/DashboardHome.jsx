@@ -9,31 +9,26 @@ import {
     calculatePrice
 } from '../../redux/reducers/CalculatorSlice';
 import style from './DashboardHome.module.scss';
+import { setCredentials } from '../../redux/reducers/AuthSlice';
 import ExpargoMenu from '../loginPage/sections/expargoMenu/ExpargoMenu';
-import { FaRegCircleUser } from "react-icons/fa6";
-import { CiLocationOn } from 'react-icons/ci';
-import { FaManatSign, FaTurkishLiraSign } from 'react-icons/fa6';
-import { FiPlusCircle } from 'react-icons/fi';
+import { FiPlusCircle, FiCopy, FiMap } from 'react-icons/fi';
 import { BiDollar } from 'react-icons/bi';
 import { IoIosArrowForward } from 'react-icons/io';
 import { IoPricetagsOutline, IoNewspaperOutline } from 'react-icons/io5';
 import { LuPhone } from 'react-icons/lu';
-import { FaRegCircleQuestion } from 'react-icons/fa6';
-import { FiMap } from "react-icons/fi"; import map from './images/map.png';
+import { FaRegCircleQuestion, FaManatSign, FaTurkishLiraSign } from 'react-icons/fa6';
+import map from './images/map.png';
 import sms from './images/sms.png';
 import kargo from './images/kargo.png';
 import taxiGo from './images/taxiGo.png';
 import print from './images/print.png';
-import { FiCopy } from "react-icons/fi";
-const DashboardHome = () => {
+import { PiUserCircleThin } from "react-icons/pi";const DashboardHome = () => {
     const dispatch = useDispatch();
-     useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      dispatch(setCredentials(JSON.parse(storedUser)));
-    }
-  }, [dispatch]);
 
+    // user-i burada useSelector ilə təyin et
+    const user = useSelector(state => state.auth.user);
+
+    // calculator state-lər
     const {
         prices,
         country,
@@ -43,37 +38,46 @@ const DashboardHome = () => {
         totalPriceDollar
     } = useSelector(state => state.calculator);
 
-    // Hər dəyişiklikdə yenidən kalkulyasiya edilir
+    // user dəyişdikdə konsola yaz
+    useEffect(() => {
+        console.log('user changed:', user);
+    }, [user]);
+
+    // Hər dəyişiklikdə kalkulyasiyanı çağır
     useEffect(() => {
         dispatch(calculatePrice());
     }, [dispatch, country, precinct, weight]);
 
+    // Kalkulyator eventləri
     const handleCountryChange = e => dispatch(setCountry(e.target.value));
     const handlePrecinctChange = e => dispatch(setPrecinct(e.target.value));
     const handleWeightChange = e => dispatch(setWeight(e.target.value));
 
     const precinctOptions = prices[country] ? Object.keys(prices[country]) : [];
-    const user = useSelector(state => state.auth.user);
+
     return (
         <div className={style.dashboardHome}>
             <ExpargoMenu />
             <div className={style.container}>
                 <div className={style.userInformation}>
                     <div className={style.informationContainer}>
-                        <FaRegCircleUser />
+                        <PiUserCircleThin  className={style.user}/>
                         <div className={style.userContainer}>
                             {user
-                                ? <p>{user.id} • {user.name} {user.surname}</p>
+                                ? <p>{user.customId } <TbPointFilled /> {user.name} {user.surname}</p>
                                 : <p>Xahiş olunur daxil olun.</p>}
                             <div className={style.line}></div>
-                            <span>Standart tarif</span>
+                            <span>Unvan</span>
+                           < div className={style.line}></div>
+                            <span>Standart Tarif</span>
                             <div className={style.line}></div>
                         </div>
-                        <FiCopy />
-                        <IoIosArrowForward />
+                        <FiCopy className={style.copy} />
+                        <IoIosArrowForward className={style.arrow} />
                     </div>
-                    <p>Filial və tarif paketinizi dəyişmək üçün sağdakı oxa klikləyin.</p>
+                    <h5>Filial və tarif paketinizi dəyişmək üçün sağdakı oxa klikləyin.</h5>
                 </div>
+
                 {/* Balans bölməsi */}
                 <div className={style.homeCards}>
                     <div className={style.balance}>
@@ -123,10 +127,10 @@ const DashboardHome = () => {
 
                         <div className={style.field}>
                             <select id="country-select" value={country} onChange={handleCountryChange}>
-  {Object.keys(prices).map(c => (
-    <option key={c} value={c}>{c}</option>
-  ))}
-</select>
+                                {Object.keys(prices).map(c => (
+                                    <option key={c} value={c}>{c}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className={style.field}>
@@ -152,9 +156,7 @@ const DashboardHome = () => {
                         <button className={style.resultButton}>
                             ${totalPriceDollar}  <TbPointFilled /> {totalPriceManat} ₼
                         </button>
-                        <div className={style.line}>
-
-                        </div>
+                        <div className={style.line}></div>
                     </div>
                 </div>
 
@@ -173,7 +175,8 @@ const DashboardHome = () => {
                     </div>
                     <div className={style.other}>
                         <div className={style.text}>
-                            <h2>Digər</h2><p>Daha çox <IoIosArrowForward /></p></div>
+                            <h2>Digər</h2><p>Daha çox <IoIosArrowForward /></p>
+                        </div>
                         <div className={style.otherContainer}>
                             {[
                                 { icon: FiMap, label: 'Xidmət şəbəkəsi' },
@@ -190,7 +193,6 @@ const DashboardHome = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );

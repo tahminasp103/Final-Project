@@ -5,6 +5,9 @@ import generateToken from "../utils/generateToken.js";
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
+const generate7DigitId = () => {
+  return Math.floor(1000000 + Math.random() * 9000000).toString(); //unique id 
+};
 
 // Giriş funksiyası
 const authUser = async (req, res) => {
@@ -14,15 +17,20 @@ const authUser = async (req, res) => {
 
     if (user && (await user.parolaKontrol(password))) {
       generateToken(res, user._id);
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        phone: user.phone,
-        fin: user.fin,
-        isPhoneVerified: user.isPhoneVerified,
-      });
+      const token = generateToken(res, user._id);  // Token al
+res.status(201).json({
+  user: {
+    _id: user._id,
+    customId: user.customId,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    phone: user.phone,
+    fin: user.fin,
+    isPhoneVerified: user.isPhoneVerified,
+  },
+  token,
+});
     } else {
       res.status(400).json({ message: 'Email ya da parola hatalı' });
     }
@@ -40,27 +48,45 @@ const registerUser = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "Bu email ilə istifadəçi mövcuddur" });
     }
+      let customId;
+    let isUnique = false;
+
+    while (!isUnique) {
+      customId = generate7DigitId();
+      const existingUser = await User.findOne({ customId });
+      if (!existingUser) {
+        isUnique = true;
+      }
+    }
 
     const user = await User.create({
       name,
       surname,
+      
       email,
       phone,
       fin,
       password,
+      customId,
+       role: 'user', 
     });
 
     if (user) {
       generateToken(res, user._id);
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        phone: user.phone,
-        fin: user.fin,
-        isPhoneVerified: user.isPhoneVerified,
-      });
+     const token = generateToken(res, user._id);  // Token al
+res.status(201).json({
+  user: {
+    _id: user._id,
+    customId: user.customId,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    phone: user.phone,
+    fin: user.fin,
+    isPhoneVerified: user.isPhoneVerified,
+  },
+  token,
+});
     } else {
       res.status(400).json({ message: "İstifadəçi əlavə olunmadı" });
     }
@@ -88,6 +114,7 @@ const getUserProfile = async (req, res) => {
     if (req.user) {
       res.json({
         _id: req.user._id,
+        customId: req.user.customId,
         name: req.user.name,
         surname: req.user.surname,
         email: req.user.email,
@@ -220,6 +247,7 @@ const verifyOtp = async (req, res) => {
 
 // Exportlar
 export {
+  generate7DigitId ,
   authUser,
   registerUser,
   logoutUser,

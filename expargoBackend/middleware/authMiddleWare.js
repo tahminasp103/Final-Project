@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
+// İstifadəçi doğrulama (login tələb olunan hər yerdə istifadə olunur)
 export const userControlAuth = async (req, res, next) => {
   const token = req.cookies?.jwt;
 
@@ -20,5 +21,14 @@ export const userControlAuth = async (req, res, next) => {
   } catch (error) {
     console.error('JWT yoxlama xətası:', error);
     return res.status(401).json({ message: 'Token yanlışdır və ya vaxtı keçib' });
+  }
+};
+
+// Admin icazəsi yoxlama middleware (userControlAuth-dan sonra çağırmaq lazımdır)
+export const adminControlAuth = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    return res.status(403).json({ message: 'Admin icazəsi tələb olunur' });
   }
 };

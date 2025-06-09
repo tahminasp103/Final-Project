@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import connectDB from './config/connectDb.js';
 import userRouter from './routes/userRoutes.js';
 import branchRouter from './routes/branchRoutes.js';
+import newsRouter from './routes/newsRouter.js';
 
 dotenv.config();
 const app = express();
@@ -37,5 +38,6 @@ connectDB();
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/api/users', userRouter);
 app.use('/api/branches', branchRouter);
+app.use('/api/news' , newsRouter)
 
 app.listen(PORT, () => console.log(`Server ${PORT}-ci portda işləyir`));

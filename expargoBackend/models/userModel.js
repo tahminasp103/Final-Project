@@ -36,8 +36,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Şifrə daxil edilməlidir'],
     },
-
-    // 🔐 OTP və təsdiqləmə sahələri
+    customId: {
+      type: String,
+      unique: true,
+    },
+    role: {                       // <-- buraya əlavə olundu
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
     otp: {
       type: String,
     },
@@ -54,7 +61,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Şifrəni DB-yə yazmadan əvvəl hash-lə
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
@@ -63,7 +69,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Parolanın düzgünlüyünü yoxlayan method
 userSchema.methods.parolaKontrol = async function (girilenParola) {
   return await bcrypt.compare(girilenParola, this.password);
 };
