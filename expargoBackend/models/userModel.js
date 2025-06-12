@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isAdmin: {
+  type: Boolean,
+  default: false,
+}
   },
   {
     timestamps: true,
@@ -68,11 +72,13 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
-
-userSchema.methods.parolaKontrol = async function (girilenParola) {
-  return await bcrypt.compare(girilenParola, this.password);
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
+// userSchema.methods.parolaKontrol = async function (girilenParola) {
+//   return await bcrypt.compare(girilenParola, this.password);
+// };
 
-const User = mongoose.model('User', userSchema);
+const userModel = mongoose.model('userModel', userSchema );
 
-export default User;
+export default userModel;

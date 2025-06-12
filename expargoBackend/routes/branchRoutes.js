@@ -8,14 +8,14 @@ import {
 } from '../controllers/branchController.js';
 import { userControlAuth } from '../middleware/authMiddleWare.js';
 
-const router = express.Router();
+const branchRoutes = express.Router();
 
 // Burada GET route üçün userControlAuth silinir, beləliklə token olmadan işləyir
-router.get('/', getAll);
+branchRoutes.get('/', getAll);
 
 // Digər əməliyyatlarda auth qalır
-router.post('/', userControlAuth, create);
-router.put('/:id', userControlAuth, update);
-router.delete('/:id', userControlAuth, remove);
+branchRoutes.post('/', userControlAuth, create);
+branchRoutes.put('/:id', userControlAuth, update);
+branchRoutes.delete('/:id', userControlAuth, remove);
 
-export default router;
+export default branchRoutes;

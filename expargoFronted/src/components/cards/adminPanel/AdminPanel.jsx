@@ -19,8 +19,8 @@ import {
   updateNews,
   deleteNews
 } from '../../../redux/reducers/NewsSlice';
-import NewsForm from '../news/NewsForm';
-import NewsList from '../news/NewsList';
+import NewsForm from '../newsForm/NewsForm';
+import NewsList from '../../../pages/newsList/NewsList';
 
 const AdminPanel = () => {
   const dispatch = useDispatch();

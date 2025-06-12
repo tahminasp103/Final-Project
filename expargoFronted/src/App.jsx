@@ -1,30 +1,36 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Router from './router/Router'
-import { useDispatch } from 'react-redux'
-import { setCredentials } from './redux/reducers/AuthSlice'
+import { useEffect } from 'react';
+import './App.css';
+import Router from './router/Router';
+import { useDispatch } from 'react-redux';
+import { clearUser, setCredentials } from './redux/reducers/authSlice';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const dispatch =useDispatch()
-useEffect(() => {
-  const token = localStorage.getItem('token');
-  try {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && token) {
-      dispatch(setCredentials({ user, token }));
-    }
-  } catch (error) {
-    console.error("User parsing error", error);
-  }
-}, [dispatch]);
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(clearUser());
+    localStorage.removeItem('user');
+  };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:7777/api/users/profile', { withCredentials: true });
+        dispatch(setCredentials({ user: data, token: null }));
+      } catch (error) {
+        logout(); // Giriş uğursuz olduqda logout çağırılır
+      }
+    };
+
+    fetchUserProfile();
+  }, [dispatch]);
+
   return (
     <>
-      <Router/>
+      <Router />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,4 +1,3 @@
-// src/pages/loginPage/sections/loginUser/LoginUser.jsx
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -7,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import ExpargoMenu from '../expargoMenu/ExpargoMenu';
 import style from './LoginUser.module.scss';
 import { useLoginMutation } from '../../../../redux/reducers/authApiSlice';
-import { setCredentials } from '../../../../redux/reducers/AuthSlice';
+import { setCredentials } from '../../../../redux/reducers/authSlice';
 
 const LoginUser = () => {
   const navigate = useNavigate();
@@ -18,24 +17,29 @@ const LoginUser = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [login, { isLoading, error }] = useLoginMutation();
 
-  // Gələcək yönləndirməni saxla (əgər mövcud deyilsə /dashboardHome)
   const from = location.state?.from?.pathname || '/dashboardHome';
 
-const handleLogin = async () => {
-  try {
-    const userData = await login({ email, password }).unwrap(); // userData.user və userData.token gəlir
-    console.log("userData:", userData); // yoxlamaq üçün
+  const handleLogin = async () => {
+    console.log('Login göndərilir:', { email, password });
+    try {
+      const userData = await login({ email:email.toLowerCase(), password }).unwrap();
+      console.log("userData:", userData);
 
-    dispatch(setCredentials({
-      user: userData.user,
-      token: userData.token, // <<< Tokeni Redux-da saxla
-    }));
+      dispatch(setCredentials({
+        user: userData.user,
+        token: userData.token,
+      }));
 
-    navigate(from, { replace: true });
-  } catch (err) {
-    console.error('Login error:', err);
-  }
-};
+      if (userData.user.role === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate(from, { replace: true });
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+    }
+  };
+
   return (
     <div className={style.loginUser}>
       <ExpargoMenu />
@@ -72,6 +76,7 @@ const handleLogin = async () => {
             <button className={style.btn2} onClick={() => navigate('/signup')}>
               QEYDİYYAT
             </button>
+            <button onClick={()=>navigate('/admin/login')}>Admin</button>
             {error && <p style={{ color: 'red' }}>Login səhvdir</p>}
           </div>
         </div>

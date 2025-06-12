@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config(); // .env faylını yükləyir
 
 const connectDB = async () => {
     try {
@@ -8,7 +11,7 @@ const connectDB = async () => {
         });
         console.log(`MONGO BAĞLANDI: ${connect.connection.host}`);
     } catch (error) {
-        console.log(error.message);
+        console.error('MongoDB Bağlantı Xətası:', error);
         process.exit(1);
     }
 };

@@ -12,10 +12,8 @@ import {
 import { adminControlAuth } from '../middleware/authMiddleWare.js'; // named import
 
 const newsRouter = express.Router();
-
 // 🟢 Bütün xəbərləri gətir
 newsRouter.get('/', getAllNews);
-
 // 🟢 Tək xəbəri ID ilə gətir
 newsRouter.get('/:id', getNewsById);
 

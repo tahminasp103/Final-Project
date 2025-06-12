@@ -1,25 +1,28 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, requireAdmin = false, requirePhoneVerification = false }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const user = useSelector((state) => state.auth.user);
-
-  // Səhifənin haradan çağırıldığına bax
-  const isFromRegister = location.pathname === '/signup';
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
-    } else if (isFromRegister && !user.isPhoneVerified) {
-      navigate('/verify-phone'); // Telefon doğrulama səhifəsinə yönləndir
+    } else if (requireAdmin && user.role !== 'admin') {
+      navigate('/unauthorized');
+    } else if (requirePhoneVerification && !user.isPhoneVerified) {
+      navigate('/verify-phone');
     }
-  }, [user, navigate, isFromRegister]);
+  }, [user, navigate, requireAdmin, requirePhoneVerification]);
 
-  if (!user) return null;
-  if (isFromRegister && !user.isPhoneVerified) return null;
+  if (
+    !user ||
+    (requireAdmin && user.role !== 'admin') ||
+    (requirePhoneVerification && !user.isPhoneVerified)
+  ) {
+    return null;
+  }
 
   return children;
 };
