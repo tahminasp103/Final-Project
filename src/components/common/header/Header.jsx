@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrency } from '../../../redux/reducers/CurrencySlice';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { LuMenu } from "react-icons/lu";
 import Drawer from 'react-modern-drawer'
 import 'react-modern-drawer/dist/index.css'
@@ -14,7 +14,6 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const selectedCurrency = useSelector(state => state.currency.selectedCurrency);
-
     const [showHeaderTop, setShowHeaderTop] = useState(true);
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +96,7 @@ const Header = () => {
                         </ul>
                     </div>
                     {/* Daxil ol düyməsi */}
-                    <button><FaUser /><span>Daxil Ol</span></button>
+                    <button onClick={()=>navigate('/login')}><a href="" target='_blank'><FaUser /><span>Daxil Ol</span></a></button>
                 </div>
             </div>
             {/* Drawer menyu */}
@@ -127,7 +126,7 @@ const Header = () => {
       <li><a onClick={() => handleNavigation('/qrupaj')} className={location.pathname === '/qrupaj' ? style.active : ''}>Beynəlxalq Qrupaj</a></li>
       <div className={style.line}></div>
     </ul>
-    <button><FaUser /> Daxil Ol</button>
+  <button ><FaUser /> Daxil Ol</button>
   </div>
 </Drawer>
         </div>

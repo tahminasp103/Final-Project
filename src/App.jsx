@@ -1,18 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Home from './pages/home/Home'
-import Router from './router/Router'
+import { useEffect } from 'react';
+import './App.css';
+import Router from './router/Router';
+import { useDispatch } from 'react-redux';
+import { clearUser, setCredentials } from './redux/reducers/authSlice';
+import axios from 'axios';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+    const dispatch = useDispatch();
+ useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+
+    if (token && user) {
+      // Axios başlıqlarına əlavə et
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      // Redux store-a yüklə
+      dispatch(setCredentials({ token, user: JSON.parse(user) }));
+    }
+  }, [dispatch]);
 
   return (
     <>
-      <Router/>
+      <Router />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

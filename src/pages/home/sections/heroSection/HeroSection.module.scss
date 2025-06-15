@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: end;
-    height: 100vh;
+    min-height: 100vh;
     background-image: url('../images/heroImage.jpg');
     background-position: center;
     background-size: cover;
@@ -14,7 +14,6 @@
     top: 0;
     left: 0;
     font-family: "Montserrat", sans-serif;
-
     .container {
         width: 75%;
         display: flex;
@@ -207,6 +206,91 @@
     display: flex;
     height: auto;
     min-height: 100vh;
+    justify-content: center;
+    position: relative;
+    .container {
+        width: 100%;
+        padding: 30px 0 ;
+       flex-direction: column;
+        .textContainer {
+            width: 95%;
+            padding: 30px 0;
+            justify-content: center;
+            h1 {
+                line-height: 36px;
+                font-size: 30px;
+                width: 80%;
+                display: block;
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            p {
+                font-size: 14px;
+                line-height: 21px;
+                margin: 5px 0;
+                padding:0;
+            }
+
+            .app {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                span {
+                    font-size: 14px;
+                }
+            }
+
+            .btn {
+                button {
+                    height: 50px;
+                    border-radius: 8px;
+                    font-size: 14px;
+
+                }
+            }
+
+        }
+
+        .calculator {
+            width: 90%;
+            padding: 0px;
+            position: absolute;
+            top: 90vh;
+            margin: 0 auto;
+            select {
+                padding: 20px;
+                font-size: 14px;
+                }
+                
+                
+
+
+
+            .weight {
+                input {
+                    padding: 20px;
+                    font-size: 14px;
+                }
+            }
+
+            button {
+                width: 75%;
+                height: 70px;
+            }
+
+            }
+
+
+
+        }
+    }
+    }
+      @media screen and (min-width:700px) and (max-width:1024px) {
+        .heroSection {
+    padding: 30px 0;
+    display: flex;
+    height: auto;
     justify-content: center;
     position: relative;
     .container {
