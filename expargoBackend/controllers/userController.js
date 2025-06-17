@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import userModel from '../models/userModel.js';
-import generateToken from "../utils/generateToken.js";
-import jwt from 'jsonwebtoken';
+import generateToken from '../utils/generateToken.js';
+
 // OTP yaratmaq üçün funksiya (6 rəqəmli)
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -11,6 +11,7 @@ const generateOTP = () => {
 const generate7DigitId = () => {
   return Math.floor(1000000 + Math.random() * 9000000).toString();
 };
+
 export const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -20,19 +21,16 @@ export const adminLogin = async (req, res) => {
       return res.status(401).json({ message: 'İstifadəçi tapılmadı' });
     }
 
-   if (user.role !== 'admin') {
-  return res.status(403).json({ message: 'Bu hissəyə yalnız admin giriş edə bilər' });
-}
-console.log('Gələn şifrə:', password);
-console.log('DB-də saxlanılan hash:', user.password);
-const isMatch = await bcrypt.compare(password, user.password);
-console.log('Şifrə uyğunluğu:', isMatch);
-    
+    if (user.role !== 'admin') {
+      return res.status(403).json({ message: 'Bu hissəyə yalnız admin giriş edə bilər' });
+    }
+
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Şifrə yanlışdır' });
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const token = generateToken(res, user._id, user.role);  // Düzgün çağırış
 
     res.status(200).json({
       user: {
@@ -40,6 +38,7 @@ console.log('Şifrə uyğunluğu:', isMatch);
         name: user.name,
         email: user.email,
         role: user.role,
+         balance: user.balance || 0,
       },
       token,
     });
@@ -49,31 +48,54 @@ console.log('Şifrə uyğunluğu:', isMatch);
   }
 };
 
-
 // Giriş funksiyası
-const authUser = async (req, res) => {
-  const { email, password } = req.body;
+export const authUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id, user.role);
+    if (user && (await user.matchPassword(password))) {
+      const token = generateToken(res, user._id, user.role);  // Düzgün çağırış
 
-    res.status(200).json({
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        customId: user.customId,
-      }
-    });
-  } else {
-    res.status(401).json({ message: 'Email və ya şifrə yalnışdır' });
+      res.status(200).json({
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          customId: user.customId,
+          balance: user.balance || 0,
+        },
+        token,
+      });
+    } else {
+      res.status(401).json({ message: 'Email və ya şifrə yalnışdır' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Serverdə xəta baş verdi' });
   }
 };
 
-const registerUser = async (req, res) => {
+export const updateUserBalance = async (req, res) => {
+  const userId = req.params.id;
+  const { amount } = req.body;
+
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
+
+    user.balance = (user.balance || 0) + amount;
+    await user.save();
+
+    res.status(200).json({ message: "Balans uğurla yeniləndi", balance: user.balance });
+  } catch (error) {
+    console.error('Balans yeniləmə xətası:', error);
+    res.status(500).json({ message: "Server xətası" });
+  }
+};
+
+export const registerUser = async (req, res) => {
   const { name, surname, email, phone, fin, password } = req.body;
   try {
     if (await userModel.exists({ $or: [{ email }, { phone }, { fin }] })) {
@@ -82,13 +104,18 @@ const registerUser = async (req, res) => {
 
     let customId;
     do {
-      customId = Math.floor(1000000 + Math.random() * 9000000).toString();
+      customId = generate7DigitId();
     } while (await userModel.exists({ customId }));
 
     const newUser = await userModel.create({
-      name, surname, email, phone, fin,
+      name,
+      surname,
+      email,
+      phone,
+      fin,
       password: await bcrypt.hash(password, 10),
-      customId
+      customId,
+          balance:  0,
     });
 
     generateToken(res, newUser._id, newUser.role);
@@ -103,16 +130,14 @@ const registerUser = async (req, res) => {
         phone: newUser.phone,
         fin: newUser.fin,
         isPhoneVerified: newUser.isPhoneVerified,
-      }
+      },
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-// Çıxış funksiyası
-const logoutUser = (req, res) => {
+export const logoutUser = (req, res) => {
   res.cookie('jwt', '', {
     httpOnly: true,
     expires: new Date(0),
@@ -120,8 +145,7 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: 'Çıxış edildi' });
 };
 
-// Profil məlumatlarını gətir
-const getUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
     if (!req.user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
@@ -134,20 +158,19 @@ const getUserProfile = async (req, res) => {
       phone: req.user.phone,
       fin: req.user.fin,
       isPhoneVerified: req.user.isPhoneVerified,
+      balance: req.user.balance || 0,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Profil məlumatlarını yenilə
-const updateUserProfile = async (req, res) => {
+export const updateUserProfile = async (req, res) => {
   const { name, surname, email, phone, fin, password } = req.body;
   try {
     const user = await userModel.findById(req.user._id);
     if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
-    // Yeni məlumatları yeniləyirik
     user.name = name || user.name;
     user.surname = surname || user.surname;
     user.email = email || user.email;
@@ -155,10 +178,11 @@ const updateUserProfile = async (req, res) => {
     user.fin = fin || user.fin;
 
     if (password) {
-      user.password = await bcrypt.hash(password, 10); // Yeni şifrəni hash edirik
+      user.password = await bcrypt.hash(password, 10);
     }
 
     const updatedUser = await user.save();
+
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
@@ -173,8 +197,7 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-// Bütün istifadəçiləri al
-const getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await userModel.find({});
     res.status(200).json(users);
@@ -183,8 +206,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// İstifadəçini sil
-const deleteUsers = async (req, res) => {
+export const deleteUsers = async (req, res) => {
   const { id } = req.params;
   try {
     const deletedUser = await userModel.findByIdAndDelete(id);
@@ -195,38 +217,37 @@ const deleteUsers = async (req, res) => {
   }
 };
 
-// OTP göndər
-const sendOtpToPhone = async (req, res) => {
+// OTP funksiyaları
+export const sendOtpToPhone = async (req, res) => {
   const { phone } = req.body;
   try {
     const user = await userModel.findOne({ phone });
-    if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
+    if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
     const otp = generateOTP();
-    const otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 dəqiqəlik
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000);
 
     user.otp = otp;
     user.otpExpires = otpExpires;
     await user.save();
 
-    // Burada SMS göndərmə kodu əlavə oluna bilər (Twilio və s.)
+    // SMS göndərmə kodu əlavə et
     console.log(`OTP kod: ${otp} -> nömrəyə: ${phone}`);
 
-    res.status(200).json({ message: "OTP göndərildi" });
+    res.status(200).json({ message: 'OTP göndərildi' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// OTP-ni yoxla
-const verifyOtp = async (req, res) => {
+export const verifyOtp = async (req, res) => {
   const { phone, otp } = req.body;
   try {
     const user = await userModel.findOne({ phone });
-    if (!user) return res.status(404).json({ message: "İstifadəçi tapılmadı" });
+    if (!user) return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
 
     if (user.otp !== otp || !user.otpExpires || user.otpExpires < new Date()) {
-      return res.status(400).json({ message: "OTP düzgün deyil və ya vaxtı bitib" });
+      return res.status(400).json({ message: 'OTP düzgün deyil və ya vaxtı bitib' });
     }
 
     user.isPhoneVerified = true;
@@ -234,21 +255,8 @@ const verifyOtp = async (req, res) => {
     user.otpExpires = null;
     await user.save();
 
-    res.status(200).json({ message: "Nömrə təsdiqləndi" });
+    res.status(200).json({ message: 'Nömrə təsdiqləndi' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
-
-export {
-  generate7DigitId,
-  authUser,
-  registerUser,
-  logoutUser,
-  getUserProfile,
-  updateUserProfile,
-  getAllUsers,
-  deleteUsers,
-  sendOtpToPhone,
-  verifyOtp,
 };

@@ -1,33 +1,50 @@
-// controllers/orderController.js
 import Order from '../models/orderModel.js';
 
 export const createOrder = async (req, res) => {
   const {
-    productLink,
-    quantity,
-    size,
-    color,
-    internalCargo,
-    productPrice,
-    note,
+    orders,      // array of items
+    productTotal,
+    cargoTotal,
+    bankFee,
+    grandTotal,
+    currency,
   } = req.body;
 
-  const bankFee = ((productPrice + internalCargo) * 0.02).toFixed(2); // misal üçün 2% bank xərci
-  const totalPrice = (productPrice * quantity + internalCargo + parseFloat(bankFee)).toFixed(2);
+  if (!Array.isArray(orders) || orders.length === 0) {
+    return res.status(400).json({ message: "Orders array is required and can't be empty" });
+  }
 
-  const order = new Order({
-    user: req.user.id,
-    productLink,
-    quantity,
-    size,
-    color,
-    internalCargo,
-    productPrice,
-    note,
-    bankFee,
-    totalPrice,
-  });
+  const createdDocs = [];
+  for (const item of orders) {
+    const {
+      productLink,
+      quantity,
+      size,
+      color,
+      internalCargo,
+      productPrice,
+      note,
+    } = item;
 
-  const createdOrder = await order.save();
-  res.status(201).json(createdOrder);
+    if (!productLink || !quantity || !productPrice) {
+      return res.status(400).json({ message: "Lazımi sahələr boş ola bilməz" });
+    }
+
+    const order = new Order({
+      user: req.user._id,
+      productLink,
+      quantity,
+      size,
+      color,
+      internalCargo,
+      productPrice,
+      note,
+      bankFee,
+      totalPrice: grandTotal,
+      currency,
+    });
+    createdDocs.push(await order.save());
+  }
+
+  res.status(201).json({ message: 'Sifarişlər uğurla yaradıldı', orders: createdDocs });
 };

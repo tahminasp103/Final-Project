@@ -9,7 +9,7 @@ import {
 
 // import upload from '../middlewares/multer.js'; // Şəkil yükləmə lazım deyilsə şərhə al
 
-import { adminControlAuth } from '../middleware/authMiddleWare.js'; // named import
+import { adminControlAuth } from '../middleware/authMiddleWare.js'; 
 
 const newsRouter = express.Router();
 // 🟢 Bütün xəbərləri gətir

@@ -1,53 +1,52 @@
 import express from 'express';
 import Stripe from 'stripe';
-import dotenv from 'dotenv';
-import paymentController from '../controllers/paymentController.js';
+import userModel from '../models/userModel.js'; // sənin user modeli
+import { userControlAuth } from '../middleware/authMiddleWare.js'; // token yoxlama middleware
 
-dotenv.config();
-const paymentRouter = express.Router();
+const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Kart yoxlama (Stripe PaymentMethod yaratmaqla)
-paymentRouter.post('/check-card', async (req, res) => {
-  const { cardNumber, expiry, cvc } = req.body;
+router.post('/', userControlAuth, async (req, res) => {
+  const { userId, amount, paymentMethodId, currency } = req.body;
+console.log('Payment request:', req.body);
+  if (!userId || !amount || !paymentMethodId || !currency) {
+    return res.status(400).json({ message: 'userId, amount, paymentMethodId və currency tələb olunur' });
+  }
 
   try {
-    const [exp_month, exp_year_suffix] = expiry.split('/');
-    const exp_year = 2000 + parseInt(exp_year_suffix, 10);
+    // Stripe üçün məbləği sent-ə çeviririk
+    const amountInCents = Math.round(amount * 100);
 
-    await stripe.paymentMethods.create({
-      type: 'card',
-      card: {
-        number: cardNumber,
-        exp_month: parseInt(exp_month, 10),
-        exp_year: exp_year,
-        cvc: cvc,
-      },
+    // Payment Intent yaradılır
+const paymentIntent = await stripe.paymentIntents.create({
+  amount,
+  currency,
+  automatic_payment_methods: {
+    enabled: true,
+    allow_redirects: 'never',  // BUNU əlavə edirsən
+  },
+});
+
+    // İstifadəçini tapırıq və balansını yeniləyirik
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'İstifadəçi tapılmadı' });
+    }
+
+    user.balance = (user.balance || 0) + amount;
+    await user.save();
+
+    // Uğurlu cavab
+    return res.json({
+      message: 'Ödəniş uğurla tamamlandı',
+      balance: user.balance,
+      amount,
     });
 
-    res.status(200).json({ exists: true, message: 'Kart təsdiqləndi' });
   } catch (error) {
-    res.status(400).json({ exists: false, message: error.message });
+    console.error('Stripe xətası:', error);
+    return res.status(500).json({ message: error.message });
   }
 });
 
-// Balans artırmaq üçün "fake" payment (backenddə balans artırır)
-paymentRouter.post('/fake', paymentController.fakePayment);
-
-// İstəsən, real Stripe Payment Intent yaratmaq (frontenddə Stripe SDK ilə işləmək üçün)
-paymentRouter.post('/create-payment-intent', async (req, res) => {
-  try {
-    const { amount, currency } = req.body;
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // sentlərdə
-      currency: currency || 'usd',
-      payment_method_types: ['card'],
-    });
-    res.send({ clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error('Stripe payment error:', error);
-    res.status(500).send({ error: 'Payment creation failed' });
-  }
-});
-
-export default paymentRouter;
+export default router;
