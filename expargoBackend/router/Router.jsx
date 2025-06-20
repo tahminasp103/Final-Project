@@ -20,7 +20,8 @@ import StripeWrapper from '../pages/dashboardHome/payment/StripeWrapper';
 import ProtectedRoute from '../pages/loginPage/sections/privateRoute/PrivateRoute';
 import AuthLoader from '../components/authLoader/AuthLoader';
 import Logout from '../pages/loginPage/sections/logout/Logout';
-
+import Faq from '../pages/faq/Faq';
+import Commercial from '../pages/commercial/Commercial';
 const Router = () => {
   const dispatch = useDispatch();
 
@@ -46,6 +47,9 @@ const Router = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/tarrifs" element={<Rates />} />
         <Route path='/payment' element={<StripeWrapper />} />
+        <Route path='/faq' element={<Faq />} />
+        <Route path='/commercial' element={<Commercial/>}/>
+        
         {/* <Route path='/logout' element={<Logout />} /> */}
  <Route
   path="/order"

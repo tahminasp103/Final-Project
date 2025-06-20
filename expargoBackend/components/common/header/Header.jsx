@@ -35,7 +35,14 @@ const Header = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const headerBoxClass = `${style.headerBox} ${(!showHeaderTop || scrolled) ? style.activeBg : ''}`;
+  const headerBoxClass = `
+  ${style.headerBox} 
+  ${
+    location.pathname === '/' && !scrolled && showHeaderTop
+      ? style.transparentBg
+      : style.activeBg
+  }
+`;
 
     const toggleDrawer = () => {
         setIsOpen(prev => !prev);
@@ -91,7 +98,7 @@ const Header = () => {
                             <li><a onClick={() => handleNavigation('/magazalar')} className={location.pathname === '/magazalar' ? style.active : ''}>Mağazalar</a></li>
                             <li><a onClick={() => handleNavigation('/elaqe')} className={location.pathname === '/elaqe' ? style.active : ''}>Əlaqə</a></li>
                             <li><a onClick={() => handleNavigation('/faq')} className={location.pathname === '/faq' ? style.active : ''}>FAQ</a></li>
-                            <li><a onClick={() => handleNavigation('/korporativ')} className={location.pathname === '/korporativ' ? style.active : ''}>Korporativ</a></li>
+                            <li><a onClick={() => handleNavigation('/commercial')} className={location.pathname === '/korporativ' ? style.active : ''}>Korporativ</a></li>
                             <li><a onClick={() => handleNavigation('/qrupaj')} className={location.pathname === '/qrupaj' ? style.active : ''}>Beynəlxalq Qrupaj</a></li>
                         </ul>
                     </div>
