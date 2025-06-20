@@ -10,6 +10,8 @@ import paymentRouter from './routes/paymentRoutes.js';
 import orderRouter from './routes/orderRoutes.js'
 import newsRouter from './routes/newsRouter.js';
 import priceRouter from './routes/priceRouter.js'
+import faqRoutes from './routes/faqRoutes.js'
+import messageRoutes from './routes/messageRouter.js'
 dotenv.config();
 connectDB()
 const app = express();
@@ -31,6 +33,8 @@ app.use('/api/news', newsRouter);
 app.use('/api/price', priceRouter);
 app.use('/api/branches', branchRoutes);
 app.use('/api/users', userRouter);
+app.use('/api/faqs', faqRoutes);
+app.use('/api/messages', messageRoutes);
 app.use((req, res, next) => {
     console.log(`Request geldi: ${req.method} ${req.url}`);
     next();
