@@ -2,34 +2,24 @@ import { useEffect } from 'react';
 import './App.css';
 import Router from './router/Router';
 import { useDispatch } from 'react-redux';
-import { clearUser, setCredentials } from './redux/reducers/authSlice';
+import {  setCredentials } from './redux/reducers/authSlice';
 import axios from 'axios';
-
+import { LanguageProvider } from './router/LanguageContext';
 function App() {
-  const dispatch = useDispatch();
-
-  const logout = () => {
-    dispatch(clearUser());
-    localStorage.removeItem('user');
-  };
-
+    const dispatch = useDispatch();
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const { data } = await axios.get('http://localhost:7777/api/users/profile', { withCredentials: true });
-        dispatch(setCredentials({ user: data, token: null }));
-      } catch (error) {
-        logout(); // Giriş uğursuz olduqda logout çağırılır
-      }
-    };
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
 
-    fetchUserProfile();
-  }, [dispatch]);
+    if (token && user) {
+      dispatch(setCredentials({ token, user , }));
+    }
+  }, [dispatch])
 
   return (
-    <>
+    <LanguageProvider>
       <Router />
-    </>
+    </LanguageProvider>
   );
 }
 

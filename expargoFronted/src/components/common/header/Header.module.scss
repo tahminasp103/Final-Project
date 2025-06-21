@@ -64,16 +64,20 @@
     }
 
     .headerBox {
-        width: 100%;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+     width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
 
-        &.activeBg {
-            background-color: rgb(78, 0, 142);
-        }
+  &.activeBg {
+    background-color: rgb(78, 0, 142);
+  }
 
+  &.transparentBg {
+    background-color: transparent;
+  }
         .container {
             width: 72%;
             display: flex;

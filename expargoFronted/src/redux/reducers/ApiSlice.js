@@ -1,17 +1,24 @@
+// src/redux/api/apiSlice.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:7777',
-    credentials: 'include', // cookie də gedəcək
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+      // Məsələn, tokeni localStorage-dən almaq:
+      try {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+          const parsed = JSON.parse(userData);
+          if (parsed?.token) {
+            headers.set('authorization', `Bearer ${parsed.token}`);
+          }
+        }
+      } catch (e) {
+        console.error('❌ Token parse error:', e);
       }
       return headers;
     },
   }),
-  tagTypes: ['User'],
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

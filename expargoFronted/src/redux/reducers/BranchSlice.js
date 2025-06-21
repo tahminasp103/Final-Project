@@ -1,107 +1,88 @@
-// redux/reducers/BranchSlice.js
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+// src/redux/reducers/BranchSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:7777/api/branches';
 
-// Token-lı sorğular üçün header qaydası:
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+// Tokeni cookie-dən oxuyan funksiya
+const getToken = () => {
+   return localStorage.getItem('token'); 
 };
 
-// Filialları gətir (token olmadan)
-export const fetchBranches = createAsyncThunk(
-  'branches/fetchBranches',
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get(API_URL);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
-    }
-  }
-);
+// Filialları yüklə
+export const fetchBranches = createAsyncThunk('branch/fetchBranches', async () => {
+  const res = await axios.get(API_URL);
+  return res.data;
+});
 
-// Filial əlavə et (token tələb olunur)
-export const createBranch = createAsyncThunk(
-  'branches/createBranch',
-  async (branchData, thunkAPI) => {
-    try {
-      const response = await axios.post(API_URL, branchData, { headers: getAuthHeaders() });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+// Yeni filial əlavə et
+export const createBranch = createAsyncThunk('branch/createBranch', async (branchData) => {
+  const token = getToken();
+  const res = await axios.post(API_URL, branchData, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  }
-);
+  });
+  return res.data;
+});
 
-// Filialu yenilə (token tələb olunur)
-export const updateBranch = createAsyncThunk(
-  'branches/updateBranch',
-  async ({ id, branchData }, thunkAPI) => {
-    try {
-      const response = await axios.put(`${API_URL}/${id}`, branchData, { headers: getAuthHeaders() });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+// Filialı yenilə
+export const updateBranch = createAsyncThunk('branch/updateBranch', async ({ id, branchData }) => {
+  const token = getToken();
+  const res = await axios.put(`${API_URL}/${id}`, branchData, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  }
-);
+  });
+  return res.data;
+});
 
-// Filial sil (token tələb olunur)
-export const deleteBranch = createAsyncThunk(
-  'branches/deleteBranch',
-  async (id, thunkAPI) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`, { headers: getAuthHeaders() });
-      return id;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
+// Filialı sil
+export const deleteBranch = createAsyncThunk('branch/deleteBranch', async (id) => {
+  const token = getToken();
+  await axios.delete(`${API_URL}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  }
-);
+  });
+  return id;
+});
 
 const branchSlice = createSlice({
-  name: 'branches',
+  name: 'branch',
   initialState: {
-    branches: [],
+    branch: [],
     loading: false,
-    error: null,
+    error: null
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
-      // fetchBranches
-      .addCase(fetchBranches.pending, (state) => { state.loading = true; state.error = null; })
-      .addCase(fetchBranches.fulfilled, (state, action) => { state.loading = false; state.branches = action.payload; })
-      .addCase(fetchBranches.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
+      .addCase(fetchBranches.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBranches.fulfilled, (state, action) => {
+        state.loading = false;
+        state.branch = action.payload;
+      })
+      .addCase(fetchBranches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
-      // createBranch
-      .addCase(createBranch.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(createBranch.fulfilled, (state, action) => {
-        state.loading = false;
-        state.branches.push(action.payload);
+        state.branch.push(action.payload);
       })
-      .addCase(createBranch.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
-
-      // updateBranch
-      .addCase(updateBranch.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(updateBranch.fulfilled, (state, action) => {
-        state.loading = false;
-        const index = state.branches.findIndex(b => b._id === action.payload._id);
-        if (index !== -1) state.branches[index] = action.payload;
+        const index = state.branch.findIndex(b => b._id === action.payload._id);
+        if (index !== -1) {
+          state.branch[index] = action.payload;
+        }
       })
-      .addCase(updateBranch.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
-
-      // deleteBranch
-      .addCase(deleteBranch.pending, (state) => { state.loading = true; state.error = null; })
       .addCase(deleteBranch.fulfilled, (state, action) => {
-        state.loading = false;
-        state.branches = state.branches.filter(b => b._id !== action.payload);
-      })
-      .addCase(deleteBranch.rejected, (state, action) => { state.loading = false; state.error = action.payload; });
-  },
+        state.branch = state.branch.filter(b => b._id !== action.payload);
+      });
+  }
 });
 
 export default branchSlice.reducer;
