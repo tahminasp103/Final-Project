@@ -1,4 +1,46 @@
 import Message from '../models/messageModel.js';
+import nodemailer from 'nodemailer';
+
+export const respondToMessage = async (req, res) => {
+  const { id } = req.params;
+  const { response } = req.body;
+
+  if (!response) {
+    return res.status(400).json({ message: "Cavab boş ola bilməz" });
+  }
+
+  try {
+    const message = await Message.findById(id);
+    if (!message) {
+      return res.status(404).json({ message: "Mesaj tapılmadı" });
+    }
+
+    // Email göndərmək üçün nodemailer konfiqurasiya
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.SMTP_USER, // .env faylından oxunur
+        pass: process.env.SMTP_PASS
+      }
+    });
+
+    await transporter.sendMail({
+      from: `"Expargo" <${process.env.SMTP_USER}>`,
+      to: message.email,
+      subject: "Expargo - Mesajınıza cavab",
+      text: response,
+    });
+
+    // Verilənlər bazasını yenilə
+    message.response = response;
+    message.responded = true;
+    await message.save();
+
+    res.status(200).json({ message: "Cavab göndərildi və yadda saxlanıldı" });
+  } catch (error) {
+    res.status(500).json({ message: "Cavab göndərilə bilmədi", error: error.message });
+  }
+};
 
 export const sendMessage = async (req, res) => {
   const { email, text } = req.body;

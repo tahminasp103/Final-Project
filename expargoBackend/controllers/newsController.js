@@ -4,8 +4,7 @@ import newsModel from '../models/newsModel.js';
 // ✅ Xəbər yarat (POST /api/news)
 export const createNews = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const image = req.file?.path;
+    const { title, content, image } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ message: 'Başlıq və məzmun tələb olunur' });
@@ -19,6 +18,7 @@ export const createNews = async (req, res) => {
     res.status(500).json({ message: 'Xəbər yaradılmadı', error: err.message });
   }
 };
+
 
 // ✅ Bütün xəbərləri al (GET /api/news)
 export const getAllNews = async (req, res) => {
@@ -55,11 +55,9 @@ export const deleteNews = async (req, res) => {
 // ✅ Xəbəri redaktə et (PUT /api/news/:id)
 export const updateNews = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const image = req.file?.path;
+    const { title, content, image } = req.body;
 
-    const updatedFields = { title, content };
-    if (image) updatedFields.image = image;
+    const updatedFields = { title, content, image };
 
     const updatedNews = await newsModel.findByIdAndUpdate(
       req.params.id,

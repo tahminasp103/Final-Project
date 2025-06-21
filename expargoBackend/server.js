@@ -30,7 +30,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use('/api/payment', paymentRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/news', newsRouter);
-app.use('/api/price', priceRouter);
+app.use('/api/prices', priceRouter);
 app.use('/api/branches', branchRoutes);
 app.use('/api/users', userRouter);
 app.use('/api/faqs', faqRoutes);

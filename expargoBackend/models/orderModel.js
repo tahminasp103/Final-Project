@@ -1,17 +1,30 @@
 import mongoose from 'mongoose';
+import { customAlphabet } from 'nanoid';
+
+// Yalnız 6 rəqəmli orderNumber üçün alfabət
+const nanoid = customAlphabet('0123456789', 6);
 
 const orderSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // login olan user
-  productLink: { type: String, required: true },
-  quantity: { type: Number, required: true },
-  size: { type: String },
-  color: { type: String },
-  internalCargo: { type: Number },
-  productPrice: { type: Number },
-  note: { type: String },
-  totalPrice: { type: Number },
-  bankFee: { type: Number },
+  user:          { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  productLink:   { type: String, required: true },
+  quantity:      { type: Number, required: true },
+  size:          String,
+  color:         String,
+  internalCargo: Number,
+  productPrice:  { type: Number, required: true },
+  note:          String,
+  totalPrice:    { type: Number, required: true },
+  bankFee:       Number,
+  status:        { type: String, default: 'Yaradıldı' },
+  orderNumber:   { type: String, unique: true },   // 6 rəqəmli sifariş nömrəsi
 }, { timestamps: true });
 
-const Order = mongoose.model('Order', orderSchema);
-export default Order;
+// Yeni sifariş yaradılarkən 6 rəqəmli orderNumber təyin et
+orderSchema.pre('save', function(next) {
+  if (!this.orderNumber) {
+    this.orderNumber = nanoid();
+  }
+  next();
+});
+
+export default mongoose.model('Order', orderSchema);

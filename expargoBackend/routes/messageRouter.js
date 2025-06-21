@@ -1,17 +1,19 @@
 import express from 'express';
-import { sendMessage, getAllMessages } from '../controllers/messageController.js';
-import Message from '../models/messageModel.js';
+import {
+  sendMessage,
+  getAllMessages,
+  respondToMessage // Cavablama üçün olan controller
+} from '../controllers/messageController.js';
 
 const router = express.Router();
 
-router.post('/', sendMessage); // istifadəçi mesaj göndərir
-router.get('/', getAllMessages); // admin mesajları görmək üçün
-router.get('/', async (req, res) => {
-  try {
-    const messages = await Message.find().sort({ createdAt: -1 });
-    res.json(messages);
-  } catch (error) {
-    res.status(500).json({ message: 'Xəta baş verdi' });
-  }
-});
+// İstifadəçi mesaj göndərir
+router.post('/', sendMessage);
+
+// Admin bütün mesajları görür
+router.get('/', getAllMessages);
+
+// Admin cavab verir
+router.post('/respond/:id', respondToMessage);
+
 export default router;
