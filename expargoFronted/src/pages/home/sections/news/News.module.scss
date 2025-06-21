@@ -1,0 +1,87 @@
+.news {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+
+    h1 {
+        font-weight: 800;
+        font-size: 40px;
+        line-height: 45px;
+        color: rgb(35, 35, 35);
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 30px 0;
+    }
+
+    .container {
+        width: 80%;
+        position: relative;
+    }
+
+    .grid {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .newsCard {
+        width: 30%;
+        border: 1px solid  rgba(0,0,0,0.2);
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+
+        img {
+            width: 100%;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            display: block;
+            object-fit: cover;
+        }
+
+        h2 {
+            margin-top: 10px;
+            padding: 30px;
+            font-size: 22px;
+            color: rgb(42, 43, 42);
+            font-family: "Inter", sans-serif;
+        }
+    }
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 30px;
+        color: #444;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        z-index: 10;
+        transition: background-color 0.2s ease;
+        background-color: gray;
+        color: white;
+        font-weight: 30px;
+
+        &:hover {
+            background: #f2a900;
+            color: white;
+        }
+    }
+
+    .arrowLeft {
+        left: -50px;
+    }
+
+    .arrowRight {
+        right: -50px;
+    }
+}

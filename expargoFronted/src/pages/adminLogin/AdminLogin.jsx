@@ -16,10 +16,15 @@ const AdminLogin = () => {
     e.preventDefault();
    dispatch(loginAdmin({ email, password }))
   .unwrap()
-  .then((data) => {
-    console.log('Login uğurlu, data:', data);
-    navigate('/admin/panel');
-  })
+.then((data) => {
+  console.log('Login uğurlu, data:', data);
+
+  // ✅ Token-i yadda saxla
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("user", JSON.stringify(data.user));
+
+  navigate('/admin/panel');
+})
   .catch((error) => {
     console.log('Login xəta:', error);
   });

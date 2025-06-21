@@ -1,42 +1,41 @@
+// src/pages/loginPage/sections/loginUser/LoginUser.jsx
+
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useLoginMutation } from '../../../../redux/reducers/authApiSlice';
+import { setCredentials } from '../../../../redux/reducers/authSlice';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import ExpargoMenu from '../expargoMenu/ExpargoMenu';
 import style from './LoginUser.module.scss';
-import { useLoginMutation } from '../../../../redux/reducers/authApiSlice';
-import { setCredentials } from '../../../../redux/reducers/authSlice';
 
 const LoginUser = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPwd, setShowPwd] = useState(false);
   const [login, { isLoading, error }] = useLoginMutation();
 
-  const from = location.state?.from?.pathname || '/dashboardHome';
-
   const handleLogin = async () => {
-    console.log('Login göndərilir:', { email, password });
     try {
-      const userData = await login({ email:email.toLowerCase(), password }).unwrap();
-      console.log("userData:", userData);
+      const response = await login({ email, password }).unwrap();
+        console.log(response.user);
+      const { token, user } = response;
 
-      dispatch(setCredentials({
-        user: userData.user,
-        token: userData.token,
-      }));
-
-      if (userData.user.role === 'admin') {
-        navigate('/admin', { replace: true });
-      } else {
-        navigate(from, { replace: true });
+      if (user.role !== 'user') {
+        alert("Yalnız istifadəçilər bu səhifədən daxil ola bilər.");
+        return;
       }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      dispatch(setCredentials({ user, token }));
+
+      navigate("/dashboardHome");
     } catch (err) {
-      console.error('Login error:', err);
+      console.error("Login error:", err?.data?.message || err.message);
     }
   };
 
@@ -76,8 +75,8 @@ const LoginUser = () => {
             <button className={style.btn2} onClick={() => navigate('/signup')}>
               QEYDİYYAT
             </button>
-            <button onClick={()=>navigate('/admin/login')}>Admin</button>
             {error && <p style={{ color: 'red' }}>Login səhvdir</p>}
+            <button onClick={()=>navigate('/admin/login')}>Admin</button>
           </div>
         </div>
       </div>

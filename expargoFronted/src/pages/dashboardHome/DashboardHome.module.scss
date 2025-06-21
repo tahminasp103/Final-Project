@@ -12,6 +12,42 @@
         align-items: center;
         padding: 30px;
         background-color: #F0F0F0;
+.news {
+  width: 90%;
+  overflow-x: auto;
+  display: flex;
+  gap: 15px;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+
+  // Scrollbar'ı bütün browserlərdə gizlət
+  scrollbar-width: none; /* Firefox üçün */
+  -ms-overflow-style: none; /* IE və Edge üçün */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari üçün */
+  }
+
+  .newsCard {
+    flex: 0 0 auto;
+    width: 5%;
+    text-align: center;
+
+    img {
+      width: 100%;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    p {
+      font-size: 10px;
+      color: rgb(78, 0, 142);
+      font-weight: 700;
+    }
+  }
+}
+
+
         .userInformation {
             width: 90%;
             margin-top: 30px;

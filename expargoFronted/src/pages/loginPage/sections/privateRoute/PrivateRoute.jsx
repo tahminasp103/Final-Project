@@ -1,27 +1,22 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
 
-const ProtectedRoute = ({ children, requireAdmin = false, requirePhoneVerification = false }) => {
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
+const ProtectedRoute = ({ children, role, message }) => {
+  const { user } = useSelector((state) => state.auth);
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else if (requireAdmin && user.role !== 'admin') {
-      navigate('/unauthorized');
-    } else if (requirePhoneVerification && !user.isPhoneVerified) {
-      navigate('/verify-phone');
+  // İstifadəçi login olmayıbsa
+  if (!user) {
+    // Optional: İstəyə görə mesaj göstərə bilərsiniz
+    if (message) {
+      alert(message);
     }
-  }, [user, navigate, requireAdmin, requirePhoneVerification]);
+    return <Navigate to="/loginUser" state={{ from: location }} replace />;
+  }
 
-  if (
-    !user ||
-    (requireAdmin && user.role !== 'admin') ||
-    (requirePhoneVerification && !user.isPhoneVerified)
-  ) {
-    return null;
+  // Rolu uyğun gəlmir
+  if (role && user.role !== role) {
+    return <Navigate to="/" replace />;
   }
 
   return children;

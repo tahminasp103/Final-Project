@@ -9,7 +9,7 @@ import {
     calculatePrice
 } from '../../redux/reducers/CalculatorSlice';
 import style from './DashboardHome.module.scss';
-import { setCredentials } from '../../redux/reducers/AuthSlice';
+// import { setCredentials } from '../../redux/reducers/AuthSlice';
 import ExpargoMenu from '../loginPage/sections/expargoMenu/ExpargoMenu';
 import { FiPlusCircle, FiCopy, FiMap } from 'react-icons/fi';
 import { BiDollar } from 'react-icons/bi';
@@ -22,9 +22,11 @@ import sms from './images/sms.png';
 import kargo from './images/kargo.png';
 import taxiGo from './images/taxiGo.png';
 import print from './images/print.png';
-import { PiUserCircleThin } from "react-icons/pi";const DashboardHome = () => {
+import { PiUserCircleThin } from "react-icons/pi";import { fetchNews } from '../../redux/reducers/NewsSlice';
+import { useNavigate } from 'react-router-dom';
+const DashboardHome = () => {
     const dispatch = useDispatch();
-
+  const navigate = useNavigate();
     // user-i burada useSelector ilə təyin et
     const user = useSelector(state => state.auth.user);
 
@@ -37,16 +39,19 @@ import { PiUserCircleThin } from "react-icons/pi";const DashboardHome = () => {
         totalPriceManat,
         totalPriceDollar
     } = useSelector(state => state.calculator);
-
+  const { newsList } = useSelector(state => state.news);
+    useEffect(() => {
+    dispatch(fetchNews());
+  }, [dispatch]);
     // user dəyişdikdə konsola yaz
     useEffect(() => {
         console.log('user changed:', user);
     }, [user]);
 
     // Hər dəyişiklikdə kalkulyasiyanı çağır
-    useEffect(() => {
-        dispatch(calculatePrice());
-    }, [dispatch, country, precinct, weight]);
+    // useEffect(() => {
+    //     dispatch(calculatePrice());
+    // }, [dispatch, country, precinct, weight]);
 
     // Kalkulyator eventləri
     const handleCountryChange = e => dispatch(setCountry(e.target.value));
@@ -59,12 +64,27 @@ import { PiUserCircleThin } from "react-icons/pi";const DashboardHome = () => {
         <div className={style.dashboardHome}>
             <ExpargoMenu />
             <div className={style.container}>
+     <div className={style.news}>
+      {newsList.map((newsItem) => (
+        <div
+          key={newsItem._id}
+          className={style.newsCard}
+          onClick={() => navigate(`/news/${newsItem._id}`)}  // Burada yönləndirmə var
+        >
+          {newsItem.image && (
+            <img src={newsItem.image} alt={newsItem.title} className={style.newsImage} />
+          )}
+          <p>{newsItem.title.slice(0, 13)}...</p>
+        </div>
+      ))}
+    </div>
+
                 <div className={style.userInformation}>
                     <div className={style.informationContainer}>
                         <PiUserCircleThin  className={style.user}/>
                         <div className={style.userContainer}>
                             {user
-                                ? <p>{user.customId } <TbPointFilled /> {user.name} {user.surname}</p>
+                                ? <p>{user.customId } <TbPointFilled /> {user.name}{user.surname}</p>
                                 : <p>Xahiş olunur daxil olun.</p>}
                             <div className={style.line}></div>
                             <span>Unvan</span>
