@@ -61,9 +61,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s ease;
 }
 .header .headerBox.activeBg {
   background-color: rgb(78, 0, 142);
+}
+.header .headerBox.transparentBg {
+  background-color: transparent;
 }
 .header .headerBox .container {
   width: 72%;
@@ -116,22 +120,21 @@
   width: 11%;
   height: 60px;
   background-color: transparent;
-  color: white;
   border: none;
   box-shadow: 0 0 0 0.5px rgb(190, 187, 187);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.header .headerBox .container button a {
+  color: white;
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 21px;
   font-weight: 400;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.header .headerBox .container button svg {
-  font-size: 18px;
-  color: rgb(209, 151, 255);
 }
 
 @media screen and (min-width: 300px) and (max-width: 700px) {

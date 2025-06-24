@@ -1,0 +1,116 @@
+.commercial {
+  width: 100%;
+  padding: 30px 0;
+  position: relative;
+  top: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #4E008E;
+}
+.commercial .container {
+  width: 80%;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.commercial .container .commercialNetwork {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.commercial .container .commercialNetwork .contact {
+  width: 48%;
+  color: white;
+}
+.commercial .container .commercialNetwork .contact h1 {
+  width: 80%;
+  font-size: 60px;
+  line-height: 70px;
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
+}
+.commercial .container .commercialNetwork .contact p {
+  width: 60%;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+  margin: 20px 0;
+}
+.commercial .container .commercialNetwork .contact .contactBtn {
+  width: 35%;
+  height: 65px;
+  border-radius: 10px;
+  border: none;
+  font-family: "Inter", sans-serif;
+  background-color: #F2A900;
+  color: #4E008E;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 29px;
+  box-shadow: 0 5px 5px rgba(242, 169, 0, 0.3), 0 -5px 5px rgba(242, 169, 0, 0.3), 5px 0 5px rgba(242, 169, 0, 0.3), -5px 0 5px rgba(242, 169, 0, 0.3);
+}
+.commercial .container .commercialNetwork .contact .contactBtn:active {
+  color: white;
+  background-color: #d39402;
+  border: 3px solid rgba(242, 169, 0, 0.3);
+}
+.commercial .container .commercialNetwork .contact .btn {
+  margin: 30px 0;
+  display: flex;
+  gap: 7px;
+}
+.commercial .container .commercialNetwork .contact .btn button {
+  font-family: "Montserrat", sans-serif;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+}
+.commercial .container .commercialNetwork .contact .btn button:hover {
+  text-decoration: underline;
+}
+.commercial .container .commercialNetwork .contact .btn button.active {
+  color: #F2A900;
+}
+.commercial .container .commercialNetwork img {
+  width: 40%;
+}
+.commercial .container .cards {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.commercial .container .cards .card {
+  width: 16.5%;
+  background-color: #5C2E8D;
+  padding: 30px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  transition: all 0.2s ease-in;
+}
+.commercial .container .cards .card:hover {
+  background-color: #F2A900;
+}
+.commercial .container .cards .card.active {
+  background-color: #F2A900;
+}
+.commercial .container .cards .card img {
+  width: 20%;
+}
+.commercial .container .cards .card span {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 25px;
+  font-weight: 400;
+  width: 50%;
+}
