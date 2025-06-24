@@ -7,6 +7,10 @@
         width: 80%;
          padding: 30px;
          background-color: #F2F2F2;
+         .text{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         h2 {
             color: black;
             font-style: normal;
@@ -26,9 +30,14 @@
                 }
             }
         }
+        svg{
+            font-size: 30px;
+            margin-right: 20px;
+        }
+         }
+
         .packContainer{
             width: 100%;
-            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -56,9 +65,17 @@
                 }
             }
             .parcelCard{
+                background-color: white;
                  width: 100%;
-                 background-color: red;
                  margin: 10px 0;
+                 display: flex;
+                 justify-content: start;
+                 align-items: center;
+                 margin: 20px;
+                 gap: 30px;
+                 img{
+                    width: 5%;
+                 }
             }
         }
 

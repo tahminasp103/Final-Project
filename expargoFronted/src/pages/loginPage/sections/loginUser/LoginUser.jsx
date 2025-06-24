@@ -16,28 +16,22 @@ const LoginUser = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPwd, setShowPwd] = useState(false);
-  const [login, { isLoading, error }] = useLoginMutation();
 
-  const handleLogin = async () => {
-    try {
-      const response = await login({ email, password }).unwrap();
-        console.log(response.user);
-      const { token, user } = response;
+const [login, { isLoading, error }] = useLoginMutation();
 
-      if (user.role !== 'user') {
-        alert("Yalnız istifadəçilər bu səhifədən daxil ola bilər.");
-        return;
-      }
-
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      dispatch(setCredentials({ user, token }));
-
-      navigate("/dashboardHome");
-    } catch (err) {
-      console.error("Login error:", err?.data?.message || err.message);
+const handleLogin = async () => {
+  try {
+    const response = await login({ email, password }).unwrap();
+    // response.user və response.token artıq store-a qoyulub və localStorage-da saxlanıb
+    if (response.user.role !== 'user') {
+      alert("Yalnız istifadəçilər bu səhifədən daxil ola bilər.");
+      return;
     }
-  };
+    navigate("/dashboardHome");
+  } catch (err) {
+    console.error("Login error:", err?.data?.message || err.message);
+  }
+};
 
   return (
     <div className={style.loginUser}>

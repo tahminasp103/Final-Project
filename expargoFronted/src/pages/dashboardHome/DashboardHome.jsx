@@ -84,7 +84,7 @@ const DashboardHome = () => {
                         <PiUserCircleThin  className={style.user}/>
                         <div className={style.userContainer}>
                             {user
-                                ? <p>{user.customId } <TbPointFilled /> {user.name}{user.surname}</p>
+                                ? <p>{user.customId } <TbPointFilled /> {user.name}  {user.surname}</p>
                                 : <p>Xahiş olunur daxil olun.</p>}
                             <div className={style.line}></div>
                             <span>Unvan</span>

@@ -37,7 +37,7 @@ const dispatch = useDispatch();
         <div className={style.textContainer}>
           <h1>Sürətli və Sərfəli Karqo</h1>
           <p>
-            Trendyol və TEMU Gəl Al nöqtələri – Beynəlxalq və ölkədaxili çatdırılma xidmətinin ən etibarlı ünvanı.
+Trendyol və TEMU Gəl Al nöqtələri – Beynəlxalq və ölkədaxili çatdırılma xidmətinin ən etibarlı ünvanı. Türkiyə və Amerikadan olan sifarişlərinizi Expargo ilə rahatlıqla həyata keçirə bilərsiniz. Sərfəli qiymətlər, geniş xidmət şəbəkəsi və yüksək keyfiyyətlə Expargo həmişə sizin yanınızdadır!
           </p>
           <div className={style.app}>
             <img src={trendyol} alt="trendyol" />
@@ -53,31 +53,35 @@ const dispatch = useDispatch();
         <div className={style.calculator}>
           <h2>Kalkulyator</h2>
 
-          <div className={style.country}>
             <label htmlFor="country-select">Ölkə</label>
-            <select id="country-select" value={country} onChange={handleCountryChange}>
+            <div className={style.inp}>
+              <img src="https://expargo.com/assets/icon/pin.svg" alt="" />
+               <select  value={country} onChange={handleCountryChange}>
               {Object.keys(prices).map((c) => (
                 <option key={c} value={c}>
-                  <CiLocationOn /> {c}
+                   {c}
                 </option>
               ))}
             </select>
-          </div>
+            </div>
 
-          <div className={style.precinct}>
             <label htmlFor="precinct-select">Məntəqə</label>
-            <select id="precinct-select" value={precinct} onChange={handlePrecinctChange}>
+            <div className={style.inp}>
+              <img src="https://expargo.com/assets/icon/log-in.svg" alt="" />
+            <select  value={precinct} onChange={handlePrecinctChange}>
               {Object.keys(prices[country]).map((p) => (
                 <option key={p} value={p}>
                   {p}
                 </option>
               ))}
             </select>
+
           </div>
 
-          <div className={style.weight}>
-            <label htmlFor="weight-input">Çəki (kq)</label>
-            <input
+            <label htmlFor="weight-input">Çəki</label>
+            <div className={style.inp}>
+               <img src="https://expargo.com/assets/icon/weight.svg" alt="" />
+               <input
               type="number"
               id="weight-input"
               min="0"
@@ -86,11 +90,10 @@ const dispatch = useDispatch();
               value={weight}
               onChange={handleWeightChange}
             />
-          </div>
-
+            </div>
           <button>
             {weight > 30 ? (
-              'Maksimum çəki: 30 kq'
+              'Max çəki: 30kq!'
             ) : (
               <>
                 {totalPriceDollar.toFixed(2)} $ - {totalPriceManat.toFixed(2)} <FaManatSign />
