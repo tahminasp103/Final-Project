@@ -23,6 +23,6 @@ router.get('/', userControlAuth, getAllOrders);
 router.patch('/:id', userControlAuth, updateOrderStatus);
 
 // Sifariş nömrəsi ilə axtarış (rəqəmli orderNumber)
-router.get('/number/:orderNumber', userControlAuth, getOrderByNumber);
+router.get('/number/:orderNumber',  getOrderByNumber);
 
 export default router;

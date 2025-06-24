@@ -88,12 +88,12 @@ export const updateOrderStatus = async (req, res) => {
 export const getOrderByNumber = async (req, res) => {
   const { orderNumber } = req.params;
   try {
-    const order = await Order
-      .findOne({ orderNumber, user: req.user?._id })
-      .populate('user', 'name email');
+    const order = await Order.findOne({ orderNumber });  // Burada user yoxlanmır
     if (!order) return res.status(404).json({ message: 'Sifariş tapılmadı' });
     res.json(order);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('🔴 Order tapılmadı:', err);
+    res.status(500).json({ message: 'Server xətası', error: err.message });
   }
 };
+

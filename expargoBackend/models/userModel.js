@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
       minlength: [7, 'FİN kodu 7 simvol olmalıdır'],
       maxlength: [7, 'FİN kodu 7 simvol olmalıdır'],
     },
+    address: {
+      type: String,
+      default: '',
+    },
     password: {
       type: String,
       required: [true, 'Şifrə daxil edilməlidir'],
@@ -40,26 +44,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
-    role: {                       // <-- buraya əlavə olundu
+    role: {
       type: String,
       enum: ['user', 'admin'],
       default: 'user',
     },
-    otp: {
-      type: String,
-    },
-    otpExpires: {
-      type: Date,
-    },
-    isPhoneVerified: {
-      type: Boolean,
-      default: false,
-    },
-    isAdmin: {
-  type: Boolean,
-  default: false,
-},
-   balance: {
+    balance: {
       type: Number,
       default: 0,
     },
@@ -79,10 +69,7 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-// userSchema.methods.parolaKontrol = async function (girilenParola) {
-//   return await bcrypt.compare(girilenParola, this.password);
-// };
 
-const userModel = mongoose.model('userModel', userSchema );
+const userModel = mongoose.model('userModel', userSchema);
 
 export default userModel;

@@ -1,3 +1,4 @@
+// routes/userRoutes.js
 import express from 'express';
 import {
   authUser,
@@ -9,34 +10,23 @@ import {
   deleteUsers,
   adminLogin,
   updateUserBalance,
+  changePassword,
 } from '../controllers/userController.js';
-import { adminControlAuth, checkRole, userControlAuth, verifyToken } from '../middleware/authMiddleWare.js';
+
+import { userControlAuth } from '../middleware/authMiddleWare.js';
+
 const router = express.Router();
 
-router.patch('/:id/balance', verifyToken, updateUserBalance);
-router.post('/admin/login', adminLogin);
 router.post('/login', authUser);
 router.post('/register', registerUser);
-// router.post('/admin/login', adminLogin);
 router.post('/logout', logoutUser);
+router.post('/admin/login', adminLogin);
 
 router.get('/profile', userControlAuth, getUserProfile);
 router.put('/profile', userControlAuth, updateUserProfile);
-router.get('/profile', userControlAuth, (req, res) => {
-  // req.user içində balans da var
-  res.json({ user: req.user, balance: req.user.balance });
-});
 
-router.get('/admin', userControlAuth, adminControlAuth, (req, res) => {
-  res.json({ message: 'Admin panelə xoş gəldiniz' });
-});
-
-router.get('/manager', userControlAuth, checkRole('manager'), (req, res) => {
-  res.json({ message: 'Manager paneli' });
-});
+router.patch('/:id/balance', userControlAuth, updateUserBalance);
 router.get('/', userControlAuth, getAllUsers);
 router.delete('/:id', userControlAuth, deleteUsers);
-
-
-
+router.put('/change-password', userControlAuth, changePassword);
 export default router;

@@ -2,7 +2,7 @@ import express from 'express';
 import {
   sendMessage,
   getAllMessages,
-  respondToMessage // Cavablama üçün olan controller
+  respondToMessage
 } from '../controllers/messageController.js';
 
 const router = express.Router();
