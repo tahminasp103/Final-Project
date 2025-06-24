@@ -8,7 +8,6 @@
     top: 0;
     left: 0;
     z-index: 1;
-
     .headerTop {
         width: 100%;
         display: flex;
@@ -64,20 +63,21 @@
     }
 
     .headerBox {
-     width: 100%;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s ease;
 
-  &.activeBg {
-    background-color: rgb(78, 0, 142);
-  }
+        &.activeBg {
+            background-color: rgb(78, 0, 142);
+        }
 
-  &.transparentBg {
-    background-color: transparent;
-  }
+        &.transparentBg {
+            background-color: transparent;
+        }
+
         .container {
             width: 72%;
             display: flex;
@@ -144,7 +144,7 @@
                 border-radius: 10px;
                 cursor: pointer;
 
-                a {
+                a{
                     color: white;
 
                     text-decoration: none;

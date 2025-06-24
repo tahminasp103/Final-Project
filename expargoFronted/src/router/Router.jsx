@@ -11,7 +11,6 @@ import DashboardHome from '../pages/dashboardHome/DashboardHome';
 import LoginUser from '../pages/loginPage/sections/loginUser/LoginUser';
 import AdminPanel from '../components/cards/adminPanel/AdminPanel';
 import AdminLogin from '../pages/adminLogin/AdminLogin';
-import ProfilePage from '../pages/loginPage/sections/profilePage/ProfilePage';
 import Rates from '../pages/home/sections/rates/Rates';
 import Order from '../pages/dashboardHome/order/Order';
 import StripeWrapper from '../pages/dashboardHome/payment/StripeWrapper';
@@ -26,6 +25,10 @@ import AdminBranch from '../components/cards/adminPanel/adminBranch/AdminBranch'
 import AdminPrice from '../components/cards/adminPanel/adminPrice/AdminPrice';
 import AdminFaq from '../components/cards/adminPanel/adminFaq/AdminFaq';
 import AdminPackages from '../components/cards/adminPanel/adminPackages/AdminPackages';
+import Profile from '../pages/dashboardHome/profile/Profile';
+import Profiledetails from '../pages/dashboardHome/profiledetails/Profiledetails';
+import Password from '../pages/dashboardHome/password/Password';
+import PaymentsAll from '../pages/dashboardHome/paymentsAll/PaymentsAll';
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -49,7 +52,7 @@ const Router = () => {
           <Route path="/signup" element={<Registration />} />
           <Route path="/loginUser" element={<LoginUser />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/tarrifs" element={<Rates />} />
           <Route path="/payment" element={<StripeWrapper />} />
           <Route path="/faq" element={<Faq />} />
@@ -65,6 +68,30 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute role="user" message="login olun.">
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/profile/details" element={
+            <ProtectedRoute role="user" message="login olun.">
+              <Profiledetails />
+            </ProtectedRoute>
+          } />
+           <Route path="/profile/password" element={
+            <ProtectedRoute role="user" message="login olun.">
+              <Password />
+            </ProtectedRoute>
+          } />
+
+   <Route path="/profile/payments-all" element={
+            <ProtectedRoute role="user" message="login olun.">
+              <PaymentsAll />
+            </ProtectedRoute>
+          } />
           <Route
             path="/packages"
             element={
@@ -91,6 +118,14 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
+          {/* <Route
+            path="/dashboard/profile"
+            element={
+              <ProtectedRoute role="user">
+                <Profile isDashboard={true} />
+              </ProtectedRoute>
+            }
+          /> */}
 
           {/* Admin panel and subroutes */}
           <Route path="/admin/*" element={
@@ -102,7 +137,7 @@ const Router = () => {
             <Route path="branch" element={<AdminBranch />} />
             <Route path="price" element={<AdminPrice />} />
             <Route path="faq" element={<AdminFaq />} />
-             <Route path="packages" element={<AdminPackages />} /> 
+            <Route path="packages" element={<AdminPackages />} />
           </Route>
         </Routes>
       </AuthLoader>

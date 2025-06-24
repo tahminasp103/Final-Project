@@ -24,7 +24,7 @@ const Header = () => {
 
     const handleNavigation = (path) => {
         navigate(path);
-        setIsOpen(false); // Drawer bağlansın navigation zamanı
+        setIsOpen(false); 
     };
 
     useEffect(() => {
@@ -50,7 +50,7 @@ const Header = () => {
       useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 1024) {
-        setIsOpen(false);  // böyük ekranda drawer bağlanır
+        setIsOpen(false); 
       }
     };
 
@@ -82,13 +82,10 @@ const Header = () => {
             )}
             <div className={headerBoxClass}>
                 <div className={style.container}>
-                    {/* Burger menyu düyməsi */}
                     <button className={style.menuBurger} onClick={toggleDrawer}>
                         <LuMenu />
                     </button>
-                    {/* Logo */}
                     <img src="https://expargo.com/assets/img/expargo_logo.png" alt="Logo" />
-                    {/* Desktop üçün naviqasiya */}
                     <div className={style.navBar}>
                         <ul>
                             <li><a onClick={() => handleNavigation('/')} className={location.pathname === '/' ? style.active : ''}>Əsas Səhifə</a></li>
@@ -99,14 +96,23 @@ const Header = () => {
                             <li><a onClick={() => handleNavigation('/elaqe')} className={location.pathname === '/elaqe' ? style.active : ''}>Əlaqə</a></li>
                             <li><a onClick={() => handleNavigation('/faq')} className={location.pathname === '/faq' ? style.active : ''}>FAQ</a></li>
                             <li><a onClick={() => handleNavigation('/commercial')} className={location.pathname === '/korporativ' ? style.active : ''}>Korporativ</a></li>
-                            <li><a onClick={() => handleNavigation('/qrupaj')} className={location.pathname === '/qrupaj' ? style.active : ''}>Beynəlxalq Qrupaj</a></li>
                         </ul>
                     </div>
-                    {/* Daxil ol düyməsi */}
-                    <button onClick={()=>navigate('/login')}><a href="" target='_blank'><FaUser /><span>Daxil Ol</span></a></button>
+                    <button
+  onClick={() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      navigate('/dashboardHome');
+    } else {
+      navigate('/login');
+    }
+  }}
+>
+  <FaUser /> <a href=""><span>Daxil Ol</span></a> 
+</button>
+
                 </div>
             </div>
-            {/* Drawer menyu */}
            <Drawer
   open={isOpen}
   onClose={() => {}}
