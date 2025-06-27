@@ -263,3 +263,436 @@
 
     }
 }
+
+
+@media screen and (min-width:300px) and (max-width:768px) {
+   .order {
+    .menu{
+        display: none;
+    }
+    .container {
+        width: 100%;
+        padding: 0px;
+        h2 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .currencyToggle {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .orderCards {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+
+            .formContainer {
+                width: 80%;
+                margin: 0 auto;
+
+                .orderForm {
+                    .number {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        p {
+                            color: rgb(78, 0, 142);
+                            font-size: 20px;
+                            line-height: 24px;
+                            font-weight: 600;
+                            margin-top: 30px;
+                            margin-left: 15px;
+                        }
+
+                        button {
+                            width: 7%;
+                            margin-top: 30px;
+                            border: none;
+                            background-color: #ED6868;
+                            border-radius: 10px;
+                            display: flex;
+                            padding-bottom: 3px;
+                            justify-content: center;
+                            align-items: center;
+                            transition: all 0.3s ease-in;
+
+                            &:hover {
+                                background-color: #f57b7b;
+                            }
+
+                            svg {
+                                font-size: 33px;
+                                color: white;
+                            }
+                        }
+                    }
+
+                    .inp {
+                        padding: 5px;
+                        .alert{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items:center ;
+                        h2 {
+                            font-size: 22px;
+                            font-weight: 700;
+                            color: black;
+                            line-height: 24px;
+                            margin-left: 10px;
+
+                        }
+                        span{
+                            color: rgb(235, 87, 87);
+                            font-weight: 700;
+                            font-size: 14px;
+                        }
+                        }
+
+
+                        input {
+                            border: none;
+                            width: 100%;
+                            padding: 20px 10px;
+                            font-size: 16px;
+                            font-weight: 500;
+                            font-family: "Inter", sans-serif
+                        }
+
+                        .cardBtn {
+                            width: 100%;
+                            background-color: red;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .handleAppOrder {
+                                width: 49%;
+                                padding: 20px;
+                                border-radius: 15px;
+                                color: white;
+                            }
+                        }
+
+                    }
+
+                }
+
+                .cardBtn {
+                    width: 100%;
+                    margin-left: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    button {
+                        width: 49.5%;
+                        padding: 20px;
+                        border: none;
+                        border-radius: 10px;
+                        color: white;
+                        font-size: 18px;
+                        line-height: normal;
+                        font-weight: 400;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 3px;
+
+                        svg {
+                            font-size: 23px;
+                        }
+                    }
+
+                    .btn1 {
+                        background-color: #4E008E;
+                        transition: all 0.3s ease-in;
+
+                        &:hover {
+                            background-color: #6f1cb3;
+                        }
+                    }
+
+                    .btn2 {
+                        background-color: #F9DB7E;
+
+                    }
+                }
+            }
+
+            .orderCalculator {
+                width: 82%;
+                padding: 10px;
+            margin: 0 auto;
+
+                .calculatorContainer {
+                    width: 100%;
+                    margin-top: 30px;
+
+                    h3 {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        color: rgb(102, 102, 102);
+                        font-weight: 400;
+                        font-size: 18px;
+                        margin: 10px 0;
+                    }
+                    .line {
+                        width: 100%;
+                        border: 1px solid rgb(216, 216, 216);
+                    }
+
+                    p {
+                        color: black;
+                    }
+
+                }
+
+                button {
+                    width: 100%;
+                    margin: 10px 0;
+                    border-radius: 20px;
+                    padding: 20px;
+                    border: none;
+                    color: white;
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: normal;
+                    background-color: #90E3B1;
+                    font-family: "Inter", sans-serif;
+                }
+            }
+        }
+
+
+
+
+    }
+}
+ 
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) {
+   .order {
+    .menu{
+        width: 30%;
+    }
+    .container {
+        width: 70%;
+        padding: 0px;
+        h2 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .currencyToggle {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .orderCards {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+
+            .formContainer {
+                width: 80%;
+                margin: 0 auto;
+
+                .orderForm {
+                    .number {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        p {
+                            color: rgb(78, 0, 142);
+                            font-size: 20px;
+                            line-height: 24px;
+                            font-weight: 600;
+                            margin-top: 30px;
+                            margin-left: 15px;
+                        }
+
+                        button {
+                            width: 7%;
+                            margin-top: 30px;
+                            border: none;
+                            background-color: #ED6868;
+                            border-radius: 10px;
+                            display: flex;
+                            padding-bottom: 3px;
+                            justify-content: center;
+                            align-items: center;
+                            transition: all 0.3s ease-in;
+
+                            &:hover {
+                                background-color: #f57b7b;
+                            }
+
+                            svg {
+                                font-size: 33px;
+                                color: white;
+                            }
+                        }
+                    }
+
+                    .inp {
+                        padding: 5px;
+                        .alert{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items:center ;
+                        h2 {
+                            font-size: 22px;
+                            font-weight: 700;
+                            color: black;
+                            line-height: 24px;
+                            margin-left: 10px;
+
+                        }
+                        span{
+                            color: rgb(235, 87, 87);
+                            font-weight: 700;
+                            font-size: 14px;
+                        }
+                        }
+
+
+                        input {
+                            border: none;
+                            width: 100%;
+                            padding: 20px 10px;
+                            font-size: 16px;
+                            font-weight: 500;
+                            font-family: "Inter", sans-serif
+                        }
+
+                        .cardBtn {
+                            width: 100%;
+                            background-color: red;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            .handleAppOrder {
+                                width: 49%;
+                                padding: 20px;
+                                border-radius: 15px;
+                                color: white;
+                            }
+                        }
+
+                    }
+
+                }
+
+                .cardBtn {
+                    width: 100%;
+                    margin-left: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    button {
+                        width: 49.5%;
+                        padding: 20px;
+                        border: none;
+                        border-radius: 10px;
+                        color: white;
+                        font-size: 18px;
+                        line-height: normal;
+                        font-weight: 400;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 3px;
+
+                        svg {
+                            font-size: 23px;
+                        }
+                    }
+
+                    .btn1 {
+                        background-color: #4E008E;
+                        transition: all 0.3s ease-in;
+
+                        &:hover {
+                            background-color: #6f1cb3;
+                        }
+                    }
+
+                    .btn2 {
+                        background-color: #F9DB7E;
+
+                    }
+                }
+            }
+
+            .orderCalculator {
+                width: 82%;
+                padding: 10px;
+            margin: 0 auto;
+
+                .calculatorContainer {
+                    width: 100%;
+                    margin-top: 30px;
+
+                    h3 {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        color: rgb(102, 102, 102);
+                        font-weight: 400;
+                        font-size: 18px;
+                        margin: 10px 0;
+                    }
+                    .line {
+                        width: 100%;
+                        border: 1px solid rgb(216, 216, 216);
+                    }
+
+                    p {
+                        color: black;
+                    }
+
+                }
+
+                button {
+                    width: 100%;
+                    margin: 10px 0;
+                    border-radius: 20px;
+                    padding: 20px;
+                    border: none;
+                    color: white;
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: normal;
+                    background-color: #90E3B1;
+                    font-family: "Inter", sans-serif;
+                }
+            }
+        }
+
+
+
+
+    }
+}
+ 
+}

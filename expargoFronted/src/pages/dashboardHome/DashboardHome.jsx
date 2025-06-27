@@ -8,8 +8,15 @@ import {
     setWeight,
     calculatePrice
 } from '../../redux/reducers/CalculatorSlice';
+import { IoHomeOutline } from "react-icons/io5";
+import { GoPackage } from "react-icons/go";
+import { LuMessageSquareMore } from "react-icons/lu";
+import { FaRegUser } from "react-icons/fa6";
+import { PiBellRingingBold } from "react-icons/pi";
+
 import style from './DashboardHome.module.scss';
-// import { setCredentials } from '../../redux/reducers/AuthSlice';
+import { TbLogout } from "react-icons/tb";
+import { IoIosNotificationsOutline } from "react-icons/io";
 import ExpargoMenu from '../loginPage/sections/expargoMenu/ExpargoMenu';
 import { FiPlusCircle, FiCopy, FiMap } from 'react-icons/fi';
 import { BiDollar } from 'react-icons/bi';
@@ -22,13 +29,34 @@ import sms from './images/sms.png';
 import kargo from './images/kargo.png';
 import taxiGo from './images/taxiGo.png';
 import print from './images/print.png';
-import { PiUserCircleThin } from "react-icons/pi";import { fetchNews } from '../../redux/reducers/NewsSlice';
+import { PiUserCircleThin } from "react-icons/pi"; import { fetchNews } from '../../redux/reducers/NewsSlice';
 import { useNavigate } from 'react-router-dom';
 const DashboardHome = () => {
     const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     // user-i burada useSelector ilə təyin et
     const user = useSelector(state => state.auth.user);
+    const copyUserInfo = (user) => {
+        if (!user) return;
+
+        const fullText = `
+ID: ${user.customId}
+Ad: ${user.name}
+Soyad: ${user.surname}
+Ünvan: ${user.address}
+Tarif: Standart Tarif
+  `.trim();
+
+        navigator.clipboard.writeText(fullText)
+            .then(() => {
+                alert("İstifadəçi məlumatları kopyalandı ✅");
+            })
+            .catch((err) => {
+                console.error("Kopyalama xətası:", err);
+                alert("Kopyalama zamanı xəta baş verdi ❌");
+            });
+    };
+
 
     // calculator state-lər
     const {
@@ -39,10 +67,10 @@ const DashboardHome = () => {
         totalPriceManat,
         totalPriceDollar
     } = useSelector(state => state.calculator);
-  const { newsList } = useSelector(state => state.news);
+    const { newsList } = useSelector(state => state.news);
     useEffect(() => {
-    dispatch(fetchNews());
-  }, [dispatch]);
+        dispatch(fetchNews());
+    }, [dispatch]);
     // user dəyişdikdə konsola yaz
     useEffect(() => {
         console.log('user changed:', user);
@@ -62,37 +90,52 @@ const DashboardHome = () => {
 
     return (
         <div className={style.dashboardHome}>
-            <ExpargoMenu />
+
+            <ExpargoMenu className={style.menu}/>
+            <header>
+                <div className={style.headerContainer}>
+                   <img src="https://dash.expargo.com/assets/img/expargo_white_header_logo.png" alt="" />
+                   <div className={style.logIcon}>
+                     <TbLogout />
+                     <IoIosNotificationsOutline />
+                   </div>
+                </div>
+            </header>
             <div className={style.container}>
-     <div className={style.news}>
-      {newsList.map((newsItem) => (
-        <div
-          key={newsItem._id}
-          className={style.newsCard}
-          onClick={() => navigate(`/news/${newsItem._id}`)}  // Burada yönləndirmə var
-        >
-          {newsItem.image && (
-            <img src={newsItem.image} alt={newsItem.title} className={style.newsImage} />
-          )}
-          <p>{newsItem.title.slice(0, 13)}...</p>
-        </div>
-      ))}
-    </div>
+                <div className={style.news}>
+                    {newsList.map((newsItem) => (
+                        <div
+                            key={newsItem._id}
+                            className={style.newsCard}
+                            onClick={() => navigate(`/news/${newsItem._id}`)}  // Burada yönləndirmə var
+                        >
+                            {newsItem.image && (
+                                <img src={newsItem.image} alt={newsItem.title} className={style.newsImage} />
+                            )}
+                            <p>{newsItem.title.slice(0, 13)}...</p>
+                        </div>
+                    ))}
+                </div>
 
                 <div className={style.userInformation}>
                     <div className={style.informationContainer}>
-                        <PiUserCircleThin  className={style.user}/>
+                        <PiUserCircleThin className={style.user} />
                         <div className={style.userContainer}>
                             {user
-                                ? <p>{user.customId } <TbPointFilled /> {user.name}  {user.surname}</p>
+                                ? <p>{user.customId} <TbPointFilled /> {user.name}  {user.surname}</p>
                                 : <p>Xahiş olunur daxil olun.</p>}
                             <div className={style.line}></div>
-                            <span>Unvan</span>
-                           < div className={style.line}></div>
+                            <span>{user.address}</span>
+                            < div className={style.line}></div>
                             <span>Standart Tarif</span>
                             <div className={style.line}></div>
                         </div>
-                        <FiCopy className={style.copy} />
+                        <FiCopy
+                            className={style.copy}
+                            onClick={() => copyUserInfo(user)}
+                        />
+
+
                         <IoIosArrowForward className={style.arrow} />
                     </div>
                     <h5>Filial və tarif paketinizi dəyişmək üçün sağdakı oxa klikləyin.</h5>
@@ -129,17 +172,25 @@ const DashboardHome = () => {
                     </div>
 
                     {/* Xarici ünvanlar */}
-                    <div className={style.myForeigAdresses}>
-                        <h2>Xarici ünvanlarım</h2>
-                        {['Türkiyə', 'ABŞ', 'Iğdır'].map(loc => (
-                            <div key={loc} className={style.adressCard}>
-                                <img src={`https://expargo.com/assets/img/flags/${loc === 'ABŞ' ? 'usa' : 'igdir'}.svg`} alt={loc} />
-                                <div className={style.line} />
-                                <h3>{loc}</h3>
-                                <IoIosArrowForward />
-                            </div>
-                        ))}
-                    </div>
+                   <div className={style.myForeigAdresses}>
+    <h2>Xarici ünvanlarım</h2>
+    {['Türkiyə', 'ABŞ', 'Iğdır'].map(loc => (
+        <div
+            key={loc}
+            className={style.adressCard}
+            onClick={() => navigate('/location')} // Yönləndirmə buradadır
+        >
+            <img
+                src={`https://expargo.com/assets/img/flags/${loc === 'ABŞ' ? 'usa' : 'igdir'}.svg`}
+                alt={loc}
+            />
+            <div className={style.line} />
+            <h3>{loc}</h3>
+            <IoIosArrowForward />
+        </div>
+    ))}
+</div>
+
 
                     {/* Kalkulyator */}
                     <div className={style.calculator}>
@@ -181,7 +232,7 @@ const DashboardHome = () => {
                 </div>
 
                 {/* Sürətli keçidlər & digər bölmələr */}
-                <div className={style.links}>
+                {/* <div className={style.links}>
                     <div className={style.fastLinks}>
                         <h2>Sürətli keçidlər</h2>
                         <div className={style.cards}>
@@ -195,7 +246,7 @@ const DashboardHome = () => {
                     </div>
                     <div className={style.other}>
                         <div className={style.text}>
-                            <h2>Digər</h2><p>Daha çox <IoIosArrowForward /></p>
+                            <h2>Digər</h2>
                         </div>
                         <div className={style.otherContainer}>
                             {[
@@ -212,8 +263,28 @@ const DashboardHome = () => {
                             ))}
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
+            <footer>
+                <div className={style.footerContainer}>
+                            <ul>
+                              <li><a href="#" onClick={() => navigate('/dashboardHome')}><IoHomeOutline /> Əsas səhifə</a></li>
+                              <div className={style.line}></div>
+                    
+                              <li><a href="#" onClick={() => navigate('/packages')}><GoPackage /> Bağlamalar</a></li>
+                              <div className={style.line}></div>
+                    
+                              <li><a href="#" onClick={() => navigate('/all-tickets')}><LuMessageSquareMore /> Müraciətlər</a></li>
+                              <div className={style.line}></div>
+                    
+                              <li><a href="#" onClick={() => navigate('/profile')}><FaRegUser /> Profil</a></li>
+                              <div className={style.line}></div>
+                    
+                              <li><a href="#" onClick={() => navigate('/notifications')}><PiBellRingingBold /> Bildirişlər</a></li>
+                              <div className={style.line1}></div>
+                            </ul>
+                </div>
+            </footer>
         </div>
     );
 };

@@ -5,15 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateBalance } from '../../../redux/reducers/authSlice';
 import style from './Balance.module.scss';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
 
   const [showPay, setShowPay] = useState(false);
-  const [message, setMessage] = useState(null);
 
   if (!totals || typeof totals.grandTotal === 'undefined') return null;
 
@@ -24,7 +26,6 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
   // Stripe uğurlu olduqdan sonra balansı yenilə
   const handlePaymentSuccess = async (amt) => {
     try {
-      // Backend balans artırma
       await axios.patch(
         `http://localhost:7777/api/users/${user._id}/balance`,
         { amount: amt },
@@ -36,11 +37,17 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
 
       const newBal = balance + amt;
       dispatch(updateBalance(newBal));
-      setMessage(`${amt.toFixed(2)} ₺ balansınıza əlavə edildi.`);
       setShowPay(false);
+
+      toast.success(`${amt.toFixed(2)} ₺ balansınıza əlavə edildi.`, {
+        position: 'top-right',
+        autoClose: 3000,
+        onClose: () => navigate('/order'),
+      });
+
     } catch (err) {
       console.error("❌ Stripe sonrası balans artırılmadı:", err);
-      setMessage("Balans artırılarkən xəta baş verdi.");
+      toast.error("Balans artırılarkən xəta baş verdi.");
     }
   };
 
@@ -56,7 +63,7 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
         currency: "TRY"
       };
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:7777/api/orders",
         payload,
         {
@@ -69,17 +76,17 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
 
       const newBalance = balance - totalAmount;
       dispatch(updateBalance(newBalance));
-      setMessage("✅ Sifariş uğurla göndərildi.");
+
+      toast.success("✅ Sifariş uğurla göndərildi.", {
+        position: 'top-right',
+        autoClose: 3000,
+        onClose: () => navigate('/order'),
+      });
+
     } catch (error) {
       console.error('❌ Sifariş göndərilmədi:', error);
-      setMessage("Sifariş zamanı xəta baş verdi.");
+      toast.error("Sifariş zamanı xəta baş verdi.");
     }
-  };
-
-  const handleCloseMsg = () => {
-    setMessage(null);
-    if (onConfirmOrder) onConfirmOrder();
-    window.location.reload();
   };
 
   if (showPay) {
@@ -127,13 +134,6 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
           </div>
         </div>
       </div>
-
-      {message && (
-        <div className={style.messageModal}>
-          <p>{message}</p>
-          <button onClick={handleCloseMsg}>OK</button>
-        </div>
-      )}
     </>
   );
 };

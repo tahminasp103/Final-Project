@@ -127,3 +127,245 @@
          }
     }
 }
+
+@media screen and (max-width: 578px) {
+    .commercial {
+        top: 8vh;
+        padding-top: 30px;
+        margin-top: 30px;
+
+        .container {
+            width: 90%;
+            padding: 30px;
+            margin-top: 30px;
+            position: relative;
+            top: 40px;
+            .commercialNetwork {
+                flex-direction: column;
+
+                .contact {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    h1 {
+                        font-size: 28px;
+                        line-height: 36px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    p {
+                        font-size: 16px;
+                        line-height: 22px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .contactBtn {
+                        width: 70%;
+                        height: 55px;
+                        font-size: 18px;
+                        line-height: 24px;
+                        margin: 0 auto;
+
+                    }
+
+                    .btn {
+                        justify-content: center;
+                        flex-wrap: wrap;
+                        gap: 5px;
+
+                        button {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                img {
+                    width: 100%;
+                    margin-top: 20px;
+                }
+            }
+
+            .cards {
+                flex-direction: column;
+                gap: 10px;
+
+                .card {
+                    width: 100%;
+                    justify-content: center;
+                    padding: 20px 10px;
+
+                    img {
+                        width: 12%;
+                    }
+
+                    span {
+                        width: auto;
+                        font-size: 14px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 579px) and (max-width: 700px) {
+    .commercial {
+        .container {
+            width: 90%;
+            position: relative;
+            top: 40px;
+                padding-top: 30px;
+            .commercialNetwork {
+                flex-direction: column;
+                padding: 30px;
+                margin-top: 30px;
+
+                .contact {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    h1 {
+                        font-size: 32px;
+                        line-height: 40px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    p {
+                        font-size: 16px;
+                        line-height: 24px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .contactBtn {
+                        width: 60%;
+                        height: 60px;
+                        font-size: 20px;
+                    }
+
+                    .btn {
+                        justify-content: center;
+                        flex-wrap: wrap;
+
+                        button {
+                            font-size: 20px;
+                        }
+                    }
+                }
+
+                img {
+                    width: 100%;
+                    margin-top: 20px;
+                }
+            }
+
+            .cards {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+
+                .card {
+                    width: 100%;
+                    justify-content: center;
+                    padding: 20px;
+
+                    img {
+                        width: 15%;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        width: auto;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 701px) and (max-width: 1024px) {
+    .commercial {
+        padding-top: 30px;
+        .container {
+            width: 90%;
+            padding-top: 30px;
+            margin-top: 30px;
+            position: relative;
+            top: 50px;
+            .commercialNetwork {
+                flex-direction: column;
+
+                .contact {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    h1 {
+                        font-size: 32px;
+                        line-height: 40px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    p {
+                        font-size: 16px;
+                        line-height: 24px;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    .contactBtn {
+                        width: 60%;
+                        height: 60px;
+                        font-size: 20px;
+                    }
+
+                    .btn {
+                        justify-content: center;
+                        flex-wrap: wrap;
+
+                        button {
+                            font-size: 20px;
+                        }
+                    }
+                }
+
+                img {
+                    width: 80%;
+                    margin-top: 20px;
+                }
+            }
+
+            .cards {
+                flex-wrap: wrap;
+                justify-content: space-between;
+
+                .card {
+                    width: 15%;
+                    justify-content: center;
+                    padding: 20px;
+
+                    img {
+                        width: 15%;
+                    }
+
+                    span {
+                        font-size: 14px;
+                        width: auto;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}

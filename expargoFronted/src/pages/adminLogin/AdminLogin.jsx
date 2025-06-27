@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAdmin } from '../../redux/reducers/AdminSlice';
 import { useNavigate } from 'react-router-dom';
+import style from './AdminLogin.module.scss';  // <-- burda import əlavə et
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -14,24 +15,21 @@ const AdminLogin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   dispatch(loginAdmin({ email, password }))
-  .unwrap()
-.then((data) => {
-  console.log('Login uğurlu, data:', data);
-
-  // ✅ Token-i yadda saxla
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("user", JSON.stringify(data.user));
-
-  navigate('/admin/panel');
-})
-  .catch((error) => {
-    console.log('Login xəta:', error);
-  });
+    dispatch(loginAdmin({ email, password }))
+      .unwrap()
+      .then((data) => {
+        console.log('Login uğurlu, data:', data);
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        navigate('/admin/panel');
+      })
+      .catch((error) => {
+        console.log('Login xəta:', error);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={style.form}>
       <h2>Admin Girişi</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {successMsg && <p style={{ color: 'green' }}>{successMsg}</p>}

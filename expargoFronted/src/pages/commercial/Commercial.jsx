@@ -28,21 +28,23 @@ const Commercial = () => {
     });
   };
 
-  return (
-    <Layout>
-      <CommercialSections
-        scrollToSection={scrollToSection}
-        activeIndex={activeIndex}
-      />
-      <div ref={seaRef}><SeaTransportation /></div>
-      <div ref={airRef}><AirTransportation /></div>
-      <div ref={railRef}><RailroadFreight /></div>
-      <div ref={roadRef}><RoadTransport /></div>
-      <div ref={customsRef}><CustomsBrokearge /></div>
-      <div ref={projectRef}><ProjectCargo /></div>
-      <CommercialMessage/>
-    </Layout>
-  );
+// src/pages/commercial/Commercial.jsx
+return (
+  <Layout footerVariant="commercial">
+    <CommercialSections
+      scrollToSection={scrollToSection}
+      activeIndex={activeIndex}
+    />
+    <div ref={seaRef}><SeaTransportation /></div>
+    <div ref={airRef}><AirTransportation /></div>
+    <div ref={railRef}><RailroadFreight /></div>
+    <div ref={roadRef}><RoadTransport /></div>
+    <div ref={customsRef}><CustomsBrokearge /></div>
+    <div ref={projectRef}><ProjectCargo /></div>
+    <CommercialMessage />
+  </Layout>
+);
+
 };
 
 export default Commercial;

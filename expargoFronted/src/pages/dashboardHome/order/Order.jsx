@@ -9,11 +9,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { GiTrashCan } from "react-icons/gi";
 import { CiCirclePlus } from "react-icons/ci";
 import Balance from '../balance/Balance';
+import { useNavigate } from 'react-router-dom';
 
 const USD_TO_TRY = 27.5;
 
 const Order = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const balance = useSelector(state => state.auth.balance);
   const [orders, setOrders] = useState([
     {
@@ -128,9 +130,9 @@ const Order = () => {
 
   return (
     <div className={style.order}>
-      <ExpargoMenu />
+      <ExpargoMenu className={style.menu} />
       <div className={style.container}>
-        <h2><IoIosArrowBack /> Sifariş artır</h2>
+        <h2 onClick={()=>navigate(-1)}><IoIosArrowBack /> Sifariş artır</h2>
 
         <div className={style.currencyToggle}>
           <button className={isTRY ? style.active : ''} onClick={() => setIsTRY(true)}>Türkiyə</button>

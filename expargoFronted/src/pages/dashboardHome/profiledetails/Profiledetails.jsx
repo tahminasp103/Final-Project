@@ -4,6 +4,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import ExpargoMenu from '../../loginPage/sections/expargoMenu/ExpargoMenu';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../../../redux/reducers/authSlice';
 
 const Profiledetails = () => {
   const [name, setName] = useState('');
@@ -14,6 +16,7 @@ const Profiledetails = () => {
   const [address, setAddress] = useState('');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const token = localStorage.getItem("token");
 
@@ -21,9 +24,7 @@ const Profiledetails = () => {
     const fetchProfile = async () => {
       try {
         const { data } = await axios.get("http://localhost:7777/api/users/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         setName(data.name || '');
@@ -31,29 +32,31 @@ const Profiledetails = () => {
         setEmail(data.email || '');
         setPhone(data.phone || '');
         setFin(data.fin || '');
-        setAddress(data.address || '');  // unutma!
+        setAddress(data.address || '');
       } catch (error) {
         console.error("Profil yüklənmə xətası ❌", error);
       }
     };
 
-    if(token) fetchProfile();
+    if (token) fetchProfile();
   }, [token]);
 
   const handleUpdate = async () => {
     try {
       const { data } = await axios.put(
         "http://localhost:7777/api/users/profile",
-        { name, surname, email, phone, fin, address }, // göndər
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+        { name, surname, email, phone, fin, address },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       alert("Profil uğurla yeniləndi ✅");
+
+      // LocalStorage və Redux-u yenilə
       localStorage.setItem("user", JSON.stringify(data));
+      dispatch(setCredentials({ token, user: data }));
+       
+      // İstəsən yeniləmədən sonra Dashboard-a yönləndir
+      navigate("/dashboardHome");
     } catch (err) {
       alert("Xəta baş verdi ❌");
       console.error(err);
@@ -62,7 +65,7 @@ const Profiledetails = () => {
 
   return (
     <div className={style.profileDetails}>
-      <ExpargoMenu />
+      <ExpargoMenu className={style.menu}/>
       <div className={style.profileContainer}>
         <h2 onClick={() => navigate(-1)}><IoIosArrowBack /> Profil detalları</h2>
         <div className={style.container}>

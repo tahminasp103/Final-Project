@@ -3,12 +3,13 @@ import style from './Password.module.scss';
 import { IoIosArrowBack } from "react-icons/io";
 import { IoLockClosedOutline, IoEyeOffOutline } from "react-icons/io5";
 import ExpargoMenu from '../../loginPage/sections/expargoMenu/ExpargoMenu';
+import { useNavigate } from 'react-router-dom';
 
 const Password = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const navigate = useNavigate()
   const token = localStorage.getItem('token');
 
   const handleSubmit = async () => {
@@ -47,9 +48,9 @@ const Password = () => {
 
   return (
     <div className={style.password}>
-      <ExpargoMenu />
+      <ExpargoMenu className={style.menu} />
       <div className={style.passwordContainer}>
-        <h2><IoIosArrowBack /> Şifrə dəyişikliyi</h2>
+        <h2 onClick={()=>navigate(-1)} ><IoIosArrowBack /> Şifrə dəyişikliyi</h2>
         <div className={style.container}>
           <div className={style.inp}>
             <IoLockClosedOutline />
