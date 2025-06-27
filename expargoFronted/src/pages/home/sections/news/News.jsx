@@ -7,31 +7,34 @@ import style from './News.module.scss';
 const News = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { newsList, loading, error } = useSelector(state => state.news);
 
   const [startIndex, setStartIndex] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     dispatch(fetchNews());
+
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
-  // Sağ ox üçün funksiyam
+  // Hər ölçüyə uyğun neçə xəbər göstəriləcəyini təyin et
+  const visibleCount = screenWidth <= 700 ? 1 : screenWidth <= 1024 ? 2 : 3;
+  const visibleNews = newsList.slice(startIndex, startIndex + visibleCount);
+
   const handleNext = () => {
-    if (startIndex + 3 < newsList.length) {
-      setStartIndex(startIndex + 1);
+    if (startIndex + visibleCount < newsList.length) {
+      setStartIndex(prev => prev + 1);
     }
   };
 
-  // Sol ox üçün funksiyam
   const handlePrev = () => {
     if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+      setStartIndex(prev => prev - 1);
     }
   };
-
-  // Slider-da göstəriləcək 3 xəbər
-  const visibleNews = newsList.slice(startIndex, startIndex + 3);
 
   return (
     <div className={style.news}>
@@ -39,12 +42,26 @@ const News = () => {
         <h1>Xəbərlər</h1>
         {loading && <p>Yüklənir...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        <div className={`${style.arrow} ${style.arrowLeft}`} onClick={handlePrev} style={{visibility: startIndex === 0 ? 'hidden' : 'visible'}}>
+
+        <div
+          className={`${style.arrow} ${style.arrowLeft}`}
+          onClick={handlePrev}
+          style={{ visibility: startIndex === 0 ? 'hidden' : 'visible' }}
+        >
           &#8592;
         </div>
-        <div className={`${style.arrow} ${style.arrowRight}`} onClick={handleNext} style={{visibility: startIndex + 3 >= newsList.length ? 'hidden' : 'visible'}}>
+
+        <div
+          className={`${style.arrow} ${style.arrowRight}`}
+          onClick={handleNext}
+          style={{
+            visibility:
+              startIndex + visibleCount >= newsList.length ? 'hidden' : 'visible',
+          }}
+        >
           &#8594;
         </div>
+
         <div className={style.grid}>
           {visibleNews.map(news => (
             <div

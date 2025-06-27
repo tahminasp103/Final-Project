@@ -5,6 +5,8 @@
     align-items: center;
     font-family: "Montserrat", sans-serif;
     margin-bottom: 30px;
+        position: relative;
+    top: 25vh;
     .container {
         width: 80%;
 
@@ -183,4 +185,96 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@media screen and (max-width: 700px) {
+  .serviceArea {
+    // top: auto;
+    padding: 20px 0;
+
+    .container {
+      width: 90%;
+
+      h2 {
+        font-size: 28px;
+        line-height: 34px;
+        padding: 20px 0;
+      }
+
+      .cards {
+        flex-direction: column;
+        align-items: center;
+
+        .mapContainer,
+        .branchList {
+          width: 100%;
+        }
+
+        .branchList {
+          flex-direction: column;
+
+          .branchItem {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 701px) and (max-width: 991px) {
+  .serviceArea {
+    .container {
+      width: 80%;
+
+      h2 {
+        font-size: 34px;
+        line-height: 40px;
+      }
+
+      .cards {
+        flex-direction: column;
+        align-items: center;
+
+        .mapContainer,
+        .branchList {
+          width: 100%;
+        }
+
+        .branchList {
+          flex-direction: row;
+          .branchItem {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 991px) and (max-width: 1024px) {
+  .serviceArea {
+    .container {
+      width: 80%;
+
+      h2 {
+        font-size: 34px;
+        line-height: 40px;
+      }
+
+      .cards {
+
+        .mapContainer,
+        .branchList {
+          width: 100%;
+        }
+
+        .branchList {
+          flex-direction: row;
+          .branchItem {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 }

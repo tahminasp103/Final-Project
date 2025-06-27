@@ -10,7 +10,7 @@ const Login = () => {
     return (
         <div className={style.login}>
             <div className={style.container}>
-                 <ExpargoMenu/>
+                 <ExpargoMenu className={style.menu}/>
                 <div className={style.expargoLogin}>
                     <div className={style.loginContainer}>
                         <div className={style.img}>

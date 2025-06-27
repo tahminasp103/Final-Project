@@ -4,6 +4,8 @@
     justify-content: center;
     align-items: center;
     padding: 30px;
+    position: relative;
+    top: 20vh;
 
     .container {
         width: 80%;
@@ -117,7 +119,8 @@
                         li {
                             display: flex;
                             justify-content: space-between;
-                              margin: 20px 0;
+                            margin: 20px 0;
+
                             p {
                                 color: rgb(78, 0, 142);
                                 font-size: 24px;
@@ -135,13 +138,15 @@
                     }
                 }
             }
+
             .ratesCard2 {
                 width: 50%;
                 margin-top: 30px;
                 border-radius: 20px;
                 padding: 30px;
-  box-shadow: 0 20px 20px rgba(137, 133, 133, 0.1);        
-    h3 {
+                box-shadow: 0 20px 20px rgba(137, 133, 133, 0.1);
+
+                h3 {
                     color: rgb rgb(35, 35, 35);
                     font-weight: 700;
                     font-size: 30px;
@@ -190,7 +195,8 @@
                         li {
                             display: flex;
                             justify-content: space-between;
-                              margin: 20px 0;
+                            margin: 20px 0;
+
                             p {
                                 color: rgb(35, 35, 35);
                                 font-size: 24px;
@@ -212,5 +218,503 @@
         }
 
 
+    }
+}
+
+@media screen and (min-width:300px) and (max-width:578px) {
+    .rates {
+        width: 100%;
+        padding: 10px;
+        position: relative;
+        top: 20vh;
+        .container {
+            width: 100%;
+             
+            h2 {
+                font-size: 30px;
+                line-height: 45px;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+
+                button {
+                    padding: 10px;
+                    flex-direction: column;
+                    font-size: 10px;
+                    line-height: 15px;
+                }
+            }
+
+            .ratesContainer {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                .ratesCard1 {
+                    width: 100%;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 16px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                            width: 50%;
+                            padding: 5px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+                        ul {
+                            margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                                    font-size: 16px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ratesCard2 {
+                    width: 100%;
+                    margin-top: 0px;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 16px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                           width: 50%;
+                            padding: 5px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+
+                        ul {
+                             margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                            font-size: 16px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                  font-size: 14px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+}
+@media screen and (min-width:578px) and (max-width:700px) {
+    .rates {
+        padding: 30px;
+        .container {
+            width: 80%;
+             
+            h2 {
+                font-size: 30px;
+                line-height: 45px;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+
+                button {
+                    padding: 10px;
+                    flex-direction: column;
+                    font-size: 10px;
+                    line-height: 15px;
+                }
+            }
+
+            .ratesContainer {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                .ratesCard1 {
+                    width: 100%;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 16px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                            width: 50%;
+                            padding: 5px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+                        ul {
+                            margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                                    font-size: 16px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                    font-size: 14px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ratesCard2 {
+                    width: 100%;
+                    margin-top: 0px;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 16px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                           width: 50%;
+                            padding: 5px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+
+                        ul {
+                             margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                            font-size: 16px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                  font-size: 14px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+}
+@media screen and (min-width:700px) and (max-width:991px) {
+    .rates {
+        padding: 30px;
+        .container {
+            width: 80%;
+            h2 {
+                font-size: 30px;
+                line-height: 45px;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+
+                button {
+                    padding: 10px;
+                    flex-direction: column;
+                    font-size: 13px;
+                    line-height: 15px;
+                }
+            }
+
+            .ratesContainer {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                .ratesCard1 {
+                    width: 100%;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 22px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                            width: 50%;
+                            padding: 8px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+                        ul {
+                            margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                                    font-size: 19px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                    font-size: 18px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ratesCard2 {
+                    width: 100%;
+                    margin-top: 0px;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 22px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                           width: 50%;
+                            padding: 8px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+
+                        ul {
+                             margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                            font-size: 19px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                  font-size: 18px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+}
+@media screen and (min-width:991px) and (max-width:1024px) {
+    .rates {
+        padding: 30px;
+        .container {
+            width: 90%;
+            h2 {
+                font-size: 30px;
+                line-height: 45px;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+
+                button {
+                    padding: 10px;
+                    flex-direction: column;
+                    font-size: 13px;
+                    line-height: 15px;
+                }
+            }
+
+            .ratesContainer {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                .ratesCard1 {
+                    width: 100%;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 22px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                            width: 50%;
+                            padding: 8px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+                        ul {
+                            margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                                    font-size: 19px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                    font-size: 18px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .ratesCard2 {
+                    width: 100%;
+                    margin-top: 0px;
+                    padding: 10px;
+                    h3 {
+                        text-align: center;
+                        font-size: 22px;
+                        line-height: 25px;
+                        padding-top: 30px;
+                        margin: 25px 0;
+                    }
+
+                    .cardBtn {
+                        button {
+                           width: 50%;
+                            padding: 8px;
+                            font-size: 12px;
+                            line-height: 18px;
+                        }
+                    }
+
+                    .tarrifs {
+
+                        ul {
+                             margin: 30px;
+                            padding-bottom: 30px;
+
+                            li {
+                                display: flex;
+                                justify-content: space-between;
+                                margin: 20px 0;
+
+                                p {
+                            font-size: 19px;
+                                    line-height: 25px;
+                                }
+
+                                span {
+                                  font-size: 18px;
+                                    line-height: 20px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
     }
 }

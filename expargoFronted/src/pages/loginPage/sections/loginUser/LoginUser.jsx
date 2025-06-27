@@ -35,7 +35,7 @@ const handleLogin = async () => {
 
   return (
     <div className={style.loginUser}>
-      <ExpargoMenu />
+      <ExpargoMenu className={style.menu}/>
       <div className={style.loginUserContainer}>
         <h3 onClick={() => navigate('/login')}><IoIosArrowBack /> Daxil ol</h3>
         <div className={style.container}>
@@ -70,7 +70,7 @@ const handleLogin = async () => {
               QEYDİYYAT
             </button>
             {error && <p style={{ color: 'red' }}>Login səhvdir</p>}
-            <button onClick={()=>navigate('/admin/login')}>Admin</button>
+            <button onClick={()=>navigate('/admin/login')} className={style.btn2}>Admin</button>
           </div>
         </div>
       </div>
