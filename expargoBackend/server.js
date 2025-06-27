@@ -12,6 +12,8 @@ import newsRouter from './routes/newsRouter.js';
 import priceRouter from './routes/priceRouter.js'
 import faqRoutes from './routes/faqRoutes.js'
 import messageRoutes from './routes/messageRouter.js'
+import notificationRoutes from './routes/notificationRoutes.js'
+import ticketRoutes from './routes/ticketRoutes.js';
 dotenv.config();
 connectDB()
 const app = express();
@@ -22,7 +24,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors({ origin: 'http://localhost:5176', credentials: true }));
+app.use(cors({ origin: 'http://localhost:5174', credentials: true }));
 // Logger middleware - hər sorğunu konsola yazır, routerlardan əvvəl
 
 
@@ -35,6 +37,8 @@ app.use('/api/branches', branchRoutes);
 app.use('/api/users', userRouter);
 app.use('/api/faqs', faqRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/tickets', ticketRoutes);
 app.use((req, res, next) => {
     console.log(`Request geldi: ${req.method} ${req.url}`);
     next();

@@ -1,38 +1,44 @@
-import { customAlphabet } from 'nanoid';
 import Order from '../models/orderModel.js';
-
-const nanoid = customAlphabet('0123456789', 6);
 
 // Yeni sifariş yaratmaq
 export const createOrder = async (req, res) => {
-  const { orders, grandTotal, bankFee, currency } = req.body;
-
-  if (!Array.isArray(orders) || orders.length === 0) {
-    return res.status(400).json({ message: "Orders array is required" });
-  }
-
   try {
-    const created = [];
-    for (const item of orders) {
-      const ord = new Order({
-        user: req.user._id,
-        productLink: item.productLink,
-        quantity: item.quantity,
-        size: item.size,
-        color: item.color,
-        internalCargo: item.internalCargo,
-        productPrice: item.productPrice,
-        note: item.note,
-        bankFee,
-        totalPrice: grandTotal,
-        currency,
-      });
-      await ord.save();  // orderNumber avtomatik yaradılır pre('save') hook ilə
-      created.push(ord);
+    const {
+      productLink,
+      quantity,
+      size,
+      color,
+      internalCargo,
+      productPrice,
+      note,
+      totalPrice,
+      bankFee
+    } = req.body;
+
+    if (!productLink || !quantity || !productPrice || !totalPrice) {
+      return res.status(400).json({ message: "Sifariş məlumatları tam deyil." });
     }
-    res.status(201).json({ message: 'Yaradıldı', orders: created });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    const newOrder = new Order({
+      user: req.user._id,
+      productLink,
+      quantity,
+      size,
+      color,
+      internalCargo,
+      productPrice,
+      note,
+      totalPrice,
+      bankFee,
+      status: 'Yaradıldı',
+    });
+
+    await newOrder.save();
+
+    res.status(201).json(newOrder);
+  } catch (error) {
+    console.error("Order creation error:", error);
+    res.status(500).json({ message: "Serverdə xəta baş verdi." });
   }
 };
 
@@ -62,12 +68,13 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
+
 // Admin: status yeniləmək
 export const updateOrderStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  if (req.user.role !== 'admin') {
+  if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Yalnız adminə icazə var' });
   }
 
@@ -88,12 +95,11 @@ export const updateOrderStatus = async (req, res) => {
 export const getOrderByNumber = async (req, res) => {
   const { orderNumber } = req.params;
   try {
-    const order = await Order.findOne({ orderNumber });  // Burada user yoxlanmır
+    const order = await Order.findOne({ orderNumber });
     if (!order) return res.status(404).json({ message: 'Sifariş tapılmadı' });
     res.json(order);
   } catch (err) {
-    console.error('🔴 Order tapılmadı:', err);
+    console.error('Order tapılmadı:', err);
     res.status(500).json({ message: 'Server xətası', error: err.message });
   }
 };
-

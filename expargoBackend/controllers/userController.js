@@ -42,34 +42,46 @@ export const adminLogin = async (req, res) => {
 export const authUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Login cəhdi:', email, password);
 
     const user = await userModel.findOne({ email });
+    console.log('Tapılan istifadəçi:', user);
 
-    if (user && (await user.matchPassword(password))) {
-      const token = generateToken(res, user._id, user.role);
+    if (user) {
+      console.log('DB-dən şifrə (hash):', user.password);
+      const isMatch = await user.matchPassword(password);
+      console.log('Şifrə uyğunluğu:', isMatch);
 
-      res.status(200).json({
-        user: {
-          _id: user._id,
-          name: user.name,
-          surname: user.surname,
-          email: user.email,
-          role: user.role,
-          customId: user.customId,
-          balance: user.balance || 0,
-          address: user.address || '',
-          phone: user.phone,
-          fin: user.fin,
-        },
-        token,
-      });
-    } else {
-      res.status(401).json({ message: 'Email və ya şifrə yalnışdır' });
+      if (isMatch) {
+        const token = generateToken(res, user._id, user.role);
+
+        return res.status(200).json({
+          user: {
+            _id: user._id,
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            role: user.role,
+            customId: user.customId,
+            balance: user.balance || 0,
+            address: user.address || '',
+            phone: user.phone,
+            fin: user.fin,
+          },
+          token,
+        });
+      }
     }
+
+    res.status(401).json({ message: 'Email və ya şifrə yalnışdır' });
   } catch (error) {
+    console.error('authUser – server xəta:', error);
     res.status(500).json({ message: 'Serverdə xəta baş verdi' });
   }
 };
+
+
+
 
 export const registerUser = async (req, res) => {
   const { name, surname, email, phone, fin, password, address } = req.body;
@@ -90,12 +102,12 @@ export const registerUser = async (req, res) => {
       phone,
       fin,
       address: address || '',
-      password: await bcrypt.hash(password, 10),
+      password,
       customId,
       balance: 0,
     });
 
-    generateToken(res, newUser._id, newUser.role);
+    const token = generateToken(res, newUser._id, newUser.role);
 
     res.status(201).json({
       user: {
@@ -108,7 +120,9 @@ export const registerUser = async (req, res) => {
         fin: newUser.fin,
         address: newUser.address,
       },
+      token,  // burada token əlavə olunur
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,6 +1,7 @@
 // controllers/newsController.js
 import newsModel from '../models/newsModel.js';
-
+import Notification from '../models/notificationModel.js';
+import User from '../models/userModel.js';
 // ✅ Xəbər yarat (POST /api/news)
 export const createNews = async (req, res) => {
   try {
@@ -13,12 +14,23 @@ export const createNews = async (req, res) => {
     const news = new newsModel({ title, content, image });
     await news.save();
 
+    // Bildiriş yaratmaq üçün istifadəçiləri götürək
+    const users = await User.find({}, '_id'); // bütün istifadəçilərin _id-sini alırıq
+
+    const notifications = users.map(user => ({
+      userId: user._id,
+      type: 'adminNews',
+      message: `Yeni xəbər: ${title}`,
+    }));
+
+    // Bildirişləri bulk yaradın
+    await Notification.insertMany(notifications);
+
     res.status(201).json(news);
   } catch (err) {
     res.status(500).json({ message: 'Xəbər yaradılmadı', error: err.message });
   }
 };
-
 
 // ✅ Bütün xəbərləri al (GET /api/news)
 export const getAllNews = async (req, res) => {

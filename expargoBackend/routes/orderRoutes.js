@@ -6,7 +6,7 @@ import {
   updateOrderStatus,
   getOrderByNumber
 } from '../controllers/orderController.js';
-import { userControlAuth } from '../middleware/authMiddleWare.js';
+import { userControlAuth, adminControlAuth } from '../middleware/authMiddleWare.js';
 
 const router = express.Router();
 
@@ -17,12 +17,9 @@ router.post('/', userControlAuth, createOrder);
 router.get('/my-orders', userControlAuth, getOrdersByUser);
 
 // Admin bütün sifarişləri görür
-router.get('/', userControlAuth, getAllOrders);
+router.get('/', userControlAuth, adminControlAuth, getAllOrders);  // burada həm auth, həm admin yoxlanır
 
 // Admin status dəyişir
-router.patch('/:id', userControlAuth, updateOrderStatus);
-
-// Sifariş nömrəsi ilə axtarış (rəqəmli orderNumber)
-router.get('/number/:orderNumber',  getOrderByNumber);
-
-export default router;
+router.patch('/:id', userControlAuth, adminControlAuth, updateOrderStatus);
+// export const router = express.Router();
+export default router; 
