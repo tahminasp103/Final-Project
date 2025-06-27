@@ -110,3 +110,134 @@
   font-size: 25px;
   color: #4E008E;
 }
+
+@media screen and (max-width: 578px) {
+  .commercialMessage {
+    padding: 20px;
+    top: 50vh;
+  }
+  .commercialMessage .container {
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+  }
+  .commercialMessage .container .formContainer,
+  .commercialMessage .container .contact {
+    width: 100%;
+  }
+  .commercialMessage .container .formContainer {
+    padding: 20px;
+  }
+  .commercialMessage .container .formContainer label {
+    font-size: 16px;
+  }
+  .commercialMessage .container .formContainer .inp {
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+  .commercialMessage .container .formContainer input,
+  .commercialMessage .container .formContainer textarea {
+    font-size: 16px;
+  }
+  .commercialMessage .container .formContainer button {
+    height: 50px;
+    font-size: 18px;
+  }
+  .commercialMessage .container .contact {
+    flex-direction: row;
+    padding: 10px;
+  }
+  .commercialMessage .container .contact .line {
+    width: 5px;
+    height: auto;
+  }
+  .commercialMessage .container .contact .contactContainer {
+    width: 100%;
+    padding: 10px 0;
+  }
+  .commercialMessage .container .contact .contactContainer h3 {
+    font-size: 18px;
+    line-height: 28px;
+    margin: 20px 0;
+    gap: 8px;
+  }
+  .commercialMessage .container .contact .contactContainer h3 svg {
+    font-size: 22px;
+  }
+}
+@media screen and (min-width: 579px) and (max-width: 700px) {
+  .commercialMessage {
+    padding: 25px;
+  }
+  .commercialMessage .container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .commercialMessage .container .formContainer,
+  .commercialMessage .container .contact {
+    width: 100%;
+  }
+  .commercialMessage .container .formContainer {
+    padding: 25px;
+  }
+  .commercialMessage .container .formContainer label {
+    font-size: 17px;
+  }
+  .commercialMessage .container .formContainer input,
+  .commercialMessage .container .formContainer textarea {
+    font-size: 17px;
+  }
+  .commercialMessage .container .formContainer button {
+    height: 55px;
+    font-size: 19px;
+  }
+  .commercialMessage .container .contact {
+    flex-direction: row;
+  }
+  .commercialMessage .container .contact .line {
+    width: 4px;
+  }
+  .commercialMessage .container .contact .contactContainer {
+    width: 100%;
+    padding: 20px 0;
+  }
+  .commercialMessage .container .contact .contactContainer h3 {
+    font-size: 20px;
+    margin: 25px 0;
+  }
+  .commercialMessage .container .contact .contactContainer h3 svg {
+    font-size: 24px;
+  }
+}
+@media screen and (min-width: 701px) and (max-width: 1024px) {
+  .commercialMessage {
+    padding: 30px;
+  }
+  .commercialMessage .container {
+    width: 90%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .commercialMessage .container .formContainer,
+  .commercialMessage .container .contact {
+    width: 100%;
+  }
+  .commercialMessage .container .formContainer {
+    padding: 30px;
+  }
+  .commercialMessage .container .formContainer button {
+    font-size: 19px;
+    height: 55px;
+  }
+  .commercialMessage .container .contact {
+    flex-direction: row;
+  }
+  .commercialMessage .container .contact .line {
+    width: 4px;
+  }
+  .commercialMessage .container .contact .contactContainer h3 {
+    font-size: 20px;
+    margin: 25px 0;
+  }
+}

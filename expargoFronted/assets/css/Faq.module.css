@@ -5,6 +5,8 @@
   justify-content: center;
   font-family: "Montserrat", sans-serif;
   align-items: center;
+  position: relative;
+  top: 25vh;
 }
 .faq h1 {
   margin: 30px;
@@ -135,4 +137,65 @@
 }
 .faq .faqList .toggleButton:hover {
   color: rgb(68, 68, 68);
+}
+
+@media screen and (max-width: 767px) {
+  .faq h1 {
+    font-size: 28px;
+    line-height: 36px;
+    margin: 20px 10px;
+    text-align: center;
+  }
+  .faq .faqList {
+    width: 90%;
+    justify-content: center;
+  }
+  .faq .faqList .faqItem {
+    width: 100%;
+  }
+  .faq .faqList .faqItem .accordionButton {
+    padding: 20px;
+    font-size: 18px;
+  }
+  .faq .faqList .faqItem .accordionButton .arrow {
+    font-size: 28px;
+  }
+  .faq .faqList .faqItem .accordionContent {
+    padding: 15px;
+  }
+  .faq .faqList .faqItem .accordionContent a.faqLink {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .faq .faqList .faqItem .accordionContent p, .faq .faqList .faqItem .accordionContent span, .faq .faqList .faqItem .accordionContent h5 {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .faq .faqList .faqItem .accordionContent svg {
+    font-size: 20px;
+  }
+  .faq .toggleButtonWrapper .toggleButton {
+    width: 60%;
+    font-size: 18px;
+    height: 60px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .faqList .faqItem {
+    width: 48%;
+  }
+  .faqList {
+    width: 70%;
+  }
+  .toggleButtonWrapper .toggleButton {
+    width: 30%;
+    font-size: 20px;
+    height: 70px;
+  }
+  .faq h1 {
+    font-size: 40px;
+    line-height: 50px;
+    margin: 30px;
+    text-align: left;
+  }
 }

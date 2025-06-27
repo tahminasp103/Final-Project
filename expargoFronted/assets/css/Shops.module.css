@@ -1,3 +1,9 @@
+.shops {
+  margin-top: 30px;
+  padding-top: 30px;
+  position: relative;
+  top: 25vh;
+}
 .shops .container {
   width: 100%;
   margin: auto;
@@ -36,4 +42,27 @@
 }
 .shops .container .imageSlide img:hover {
   filter: grayscale(0%);
+}
+
+@media screen and (min-width: 300px) and (max-width: 700px) {
+  .shops .container h2 {
+    line-height: 40px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    padding: 0px;
+  }
+  .shops .container .imageSlide {
+    width: 35%;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1024px) {
+  .shops .container h2 {
+    line-height: 40px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    padding: 0px;
+  }
+  .shops .container .imageSlide {
+    width: 25%;
+  }
 }

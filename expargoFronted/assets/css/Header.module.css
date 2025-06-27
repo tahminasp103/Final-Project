@@ -116,6 +116,20 @@
   color: white;
   font-weight: 600;
 }
+.header .headerBox .container .themeToggle {
+  margin-left: 15px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+.header .headerBox .container .themeToggle:hover {
+  color: var(--accent-color, #ffca22);
+}
 .header .headerBox .container button {
   width: 11%;
   height: 60px;

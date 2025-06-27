@@ -5,6 +5,8 @@
   justify-content: center;
   align-items: center;
   font-family: "Montserrat", sans-serif;
+  position: relative;
+  top: 25vh;
 }
 .news h1 {
   font-weight: 800;
@@ -24,9 +26,9 @@
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
+  gap: 20px;
 }
 .news .newsCard {
-  width: 30%;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 30px;
   cursor: pointer;
@@ -36,7 +38,6 @@
   width: 100%;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  display: block;
   object-fit: cover;
 }
 .news .newsCard h2 {
@@ -51,8 +52,8 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 30px;
-  color: #444;
-  background: rgba(255, 255, 255, 0.7);
+  background-color: gray;
+  color: white;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -62,9 +63,6 @@
   user-select: none;
   z-index: 10;
   transition: background-color 0.2s ease;
-  background-color: gray;
-  color: white;
-  font-weight: 30px;
 }
 .news .arrow:hover {
   background: #f2a900;
@@ -75,4 +73,45 @@
 }
 .news .arrowRight {
   right: -50px;
+}
+
+@media screen and (max-width: 700px) {
+  .grid {
+    justify-content: center;
+  }
+  .newsCard {
+    width: 100%;
+  }
+  .arrowLeft {
+    left: -20px;
+  }
+  .arrowRight {
+    right: -20px;
+  }
+}
+@media screen and (min-width: 701px) and (max-width: 1024px) {
+  .news h1 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .news .container {
+    width: 90%;
+  }
+  .news .grid {
+    justify-content: center;
+  }
+  .news .newsCard {
+    width: 45%;
+  }
+  .news .arrowLeft {
+    left: -30px;
+  }
+  .news .arrowRight {
+    right: -30px;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .newsCard {
+    width: 30%;
+  }
 }
