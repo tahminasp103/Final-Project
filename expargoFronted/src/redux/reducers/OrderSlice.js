@@ -21,13 +21,33 @@ export const createOrder = createAsyncThunk(
   }
 );
 
-
-
-
+export const getOrdersByUser = createAsyncThunk(
+  'order/getOrdersByUser',
+  async (userId, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+      const token = state.auth.token;
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const res = await axios.get(`http://localhost:7777/api/orders/user/${userId}`, config);
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || { message: 'Sifarişlər yüklənmədi' });
+    }
+  }
+);
 
 const orderSlice = createSlice({
   name: 'order',
-  initialState: { loading: false, order: null, error: null },
+  initialState: {
+    loading: false,
+    order: null,
+    error: null,
+    userOrders: [],
+    userOrdersLoading: false,
+    userOrdersError: null
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -42,6 +62,17 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Xəta baş verdi';
+      })
+      .addCase(getOrdersByUser.pending, (state) => {
+        state.userOrdersLoading = true;
+      })
+      .addCase(getOrdersByUser.fulfilled, (state, action) => {
+        state.userOrdersLoading = false;
+        state.userOrders = action.payload;
+      })
+      .addCase(getOrdersByUser.rejected, (state, action) => {
+        state.userOrdersLoading = false;
+        state.userOrdersError = action.payload.message;
       });
   },
 });

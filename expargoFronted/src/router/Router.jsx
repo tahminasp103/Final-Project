@@ -29,6 +29,18 @@ import Profile from '../pages/dashboardHome/profile/Profile';
 import Profiledetails from '../pages/dashboardHome/profiledetails/Profiledetails';
 import Password from '../pages/dashboardHome/password/Password';
 import PaymentsAll from '../pages/dashboardHome/paymentsAll/PaymentsAll';
+// import FaqPage from '../pages/faqPage/FaqPage';
+import PricingPage from '../pages/pricingPage/PricingPage';
+import ServiceNetwork from '../pages/serviceNetwork/ServiceNetwork';
+import Articles from '../pages/articles/Articles';
+import FaqPage from '../pages/faqPage/FaqPage';
+import Contact from '../pages/contact/Contact';
+import Notification from '../pages/dashboardHome/notification/Notification';
+import AddTicket from '../pages/dashboardHome/addTicket/AddTicket';
+import AdminTickets from '../components/cards/adminPanel/adminTickets/AdminTickets';
+import Location from '../pages/dashboardHome/location/Location';
+import DeleteUser from '../pages/dashboardHome/deleteUser/DeleteUser';
+import AdminUsers from '../components/cards/adminPanel/adminUsers/AdminUsers';
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -55,16 +67,38 @@ const Router = () => {
           {/* <Route path="/profile" element={<ProfilePage />} /> */}
           <Route path="/tarrifs" element={<Rates />} />
           <Route path="/payment" element={<StripeWrapper />} />
-          <Route path="/faq" element={<Faq />} />
+          {/* <Route path="/faq" element={<Faq />} /> */}
           <Route path="/commercial" element={<Commercial />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/xəbərlər" element={<Articles />} />
+          <Route path="/filiallar" element={<ServiceNetwork />} />
+          <Route path="/tariflər" element={<PricingPage />} />
+          <Route path="/Əlaqə" element={<Contact />} />
+          <Route path="/location" element={<Location />} />
           <Route path="/news/:id" element={<NewsDetail isDashboard={false} />} /> {/* Public news detail */}
-
+           
           {/* Protected routes */}
           <Route
             path="/order"
             element={
               <ProtectedRoute role="user" message="login olun.">
                 <Order />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute role="user" message="login olun.">
+                <Notification />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/all-tickets"
+            element={
+              <ProtectedRoute role="user" message="login olun.">
+                <AddTicket />
               </ProtectedRoute>
             }
           />
@@ -90,6 +124,11 @@ const Router = () => {
    <Route path="/profile/payments-all" element={
             <ProtectedRoute role="user" message="login olun.">
               <PaymentsAll />
+            </ProtectedRoute>
+          } />
+            <Route path="/profile/delete" element={
+            <ProtectedRoute role="user" message="login olun.">
+              <DeleteUser/>
             </ProtectedRoute>
           } />
           <Route
@@ -118,16 +157,6 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/dashboard/profile"
-            element={
-              <ProtectedRoute role="user">
-                <Profile isDashboard={true} />
-              </ProtectedRoute>
-            }
-          /> */}
-
-          {/* Admin panel and subroutes */}
           <Route path="/admin/*" element={
             <ProtectedRoute role="admin">
               <AdminPanel />
@@ -138,6 +167,8 @@ const Router = () => {
             <Route path="price" element={<AdminPrice />} />
             <Route path="faq" element={<AdminFaq />} />
             <Route path="packages" element={<AdminPackages />} />
+            <Route path="tickets" element={<AdminTickets />} />
+            <Route path="users" element={<AdminUsers />} />
           </Route>
         </Routes>
       </AuthLoader>

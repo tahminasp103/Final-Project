@@ -8,6 +8,7 @@
     top: 0;
     left: 0;
     z-index: 1;
+
     .headerTop {
         width: 100%;
         display: flex;
@@ -134,19 +135,33 @@
                 }
             }
 
+            .themeToggle {
+                margin-left: 15px;
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                font-weight: 600;
+                color: var(--text-color);
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: var(--accent-color, #ffca22);
+                }
+            }
+
             button {
                 width: 11%;
                 height: 60px;
                 background-color: transparent;
                 border: none;
                 box-shadow: 0 0 0 0.5px rgb(190, 187, 187);
-
+                 margin: 0 10px;
                 border-radius: 10px;
                 cursor: pointer;
-
-                a{
-                    color: white;
-
+                 color: white;
+                a {
                     text-decoration: none;
                     display: flex;
                     justify-content: center;

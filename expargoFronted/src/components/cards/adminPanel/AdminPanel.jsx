@@ -21,10 +21,15 @@ const AdminPanel = () => {
         <NavLink to="/admin/faq" className={({ isActive }) => isActive ? style.activeLink : style.link}>
           FAQ
         </NavLink>
-
+       <NavLink to="/admin/tickets" className={({ isActive }) => isActive ? style.activeLink : style.link}>
+          Müraciətlət
+        </NavLink>
         {/* Yeni Packages linki */}
         <NavLink to="/admin/packages" className={({ isActive }) => isActive ? style.activeLink : style.link}>
           Bağlamalar
+        </NavLink>
+          <NavLink to="/admin/users" className={({ isActive }) => isActive ? style.activeLink : style.link}>
+          Users
         </NavLink>
       </nav>
 
