@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
+const Balance = ({ orders, totals, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
 
   const totalAmount = parseFloat(totals.grandTotal) || 0;
   const balance = user?.balance ?? 0;
-  const remaining = (totalAmount - balance).toFixed(2);
+  const remaining = totalAmount - balance; // ✅ string yox, number saxlanılır
 
   // Stripe uğurlu olduqdan sonra balansı yenilə
   const handlePaymentSuccess = async (amt) => {
@@ -52,42 +52,49 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
   };
 
   // Sifarişi təsdiqlə və göndər
-  const handleConfirm = async () => {
-    try {
-      const payload = {
-        orders,
-        productTotal: totals.productTotal,
-        cargoTotal: totals.cargoTotal,
-        bankFee: totals.bankFee,
-        grandTotal: totals.grandTotal,
-        currency: "TRY"
+const handleConfirm = async () => {
+  try {
+    for (const item of orders) {
+      const orderPayload = {
+        productLink: item.productLink,
+        quantity: Number(item.quantity),
+        size: item.size || '',
+        color: item.color || '',
+        internalCargo: Number(item.internalCargo) || 0,
+        productPrice: Number(item.productPrice),
+        note: item.note || '',
+        totalPrice: Number(item.productPrice) + Number(item.internalCargo) + Number(totals.bankFee || 0),
+        bankFee: Number(totals.bankFee) || 0,
+        user: user._id,  // bəzən lazım ola bilər, backend tərəfindən yoxla
       };
 
       await axios.post(
         "http://localhost:7777/api/orders",
-        payload,
+        orderPayload,
         {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          withCredentials: true
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
-
-      const newBalance = balance - totalAmount;
-      dispatch(updateBalance(newBalance));
-
-      toast.success("✅ Sifariş uğurla göndərildi.", {
-        position: 'top-right',
-        autoClose: 3000,
-        onClose: () => navigate('/order'),
-      });
-
-    } catch (error) {
-      console.error('❌ Sifariş göndərilmədi:', error);
-      toast.error("Sifariş zamanı xəta baş verdi.");
     }
-  };
+
+    // balansı güncəllə
+    const newBalance = balance - totalAmount;
+    dispatch(updateBalance(newBalance));
+
+    toast.success("✅ Sifariş uğurla göndərildi.", {
+      position: 'top-right',
+      autoClose: 3000,
+      onClose: () => navigate('/order'),
+    });
+
+  } catch (error) {
+    console.error('❌ Sifariş göndərilmədi:', error);
+    toast.error("Sifariş zamanı xəta baş verdi.");
+  }
+};
+
+
 
   if (showPay) {
     return (
@@ -99,42 +106,40 @@ const Balance = ({ orders, totals, onClose, onConfirmOrder }) => {
   }
 
   return (
-    <>
-      <div className={style.modalBackdrop}>
-        <div className={style.balanceModal}>
-          <h2>Sifarişi tamamla</h2>
+    <div className={style.modalBackdrop}>
+      <div className={style.balanceModal}>
+        <h2>Sifarişi tamamla</h2>
 
-          <p>Toplam məbləğ: {totalAmount.toFixed(2)} ₺</p>
-          <p>
-            Cari balans:{" "}
-            {typeof user?.balance === "number"
-              ? user.balance.toFixed(2)
-              : "0.00"} ₺
-          </p>
-          <span>
-            Qalıq borc: {remaining > 0 ? `${remaining} ₺` : "Yoxdur"}
-          </span>
+        <p>Toplam məbləğ: {totalAmount.toFixed(2)} ₺</p>
+        <p>
+          Cari balans:{" "}
+          {typeof user?.balance === "number"
+            ? user.balance.toFixed(2)
+            : "0.00"} ₺
+        </p>
+        <span>
+          Qalıq borc: {remaining > 0 ? `${remaining.toFixed(2)} ₺` : "Yoxdur"}
+        </span>
 
-          <h5>
-            Balansınız kifayət etmirsə, balans artır düyməsinə klik edin
-          </h5>
+        <h5>
+          Balansınız kifayət etmirsə, balans artır düyməsinə klik edin
+        </h5>
 
-          <div className={style.buttons}>
-            <button onClick={onClose}>Geri qayıt</button>
+        <div className={style.buttons}>
+          <button onClick={onClose}>Geri qayıt</button>
 
-            {remaining > 0 ? (
-              <button onClick={() => setShowPay(true)} className={style.btn1}>
-                Balans artır
-              </button>
-            ) : (
-              <button onClick={handleConfirm} className={style.btn2}>
-                Təsdiqlə
-              </button>
-            )}
-          </div>
+          {remaining > 0 ? (
+            <button onClick={() => setShowPay(true)} className={style.btn1}>
+              Balans artır
+            </button>
+          ) : (
+            <button onClick={handleConfirm} className={style.btn2}>
+              Təsdiqlə
+            </button>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
