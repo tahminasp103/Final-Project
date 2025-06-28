@@ -17,9 +17,13 @@ router.post('/', userControlAuth, createOrder);
 router.get('/my-orders', userControlAuth, getOrdersByUser);
 
 // Admin bütün sifarişləri görür
-router.get('/', userControlAuth, adminControlAuth, getAllOrders);  // burada həm auth, həm admin yoxlanır
+router.get('/', userControlAuth, adminControlAuth, getAllOrders);
 
 // Admin status dəyişir
 router.patch('/:id', userControlAuth, adminControlAuth, updateOrderStatus);
-// export const router = express.Router();
-export default router; 
+
+// **Burada əlavə olunur: sifariş nömrəsinə görə sifariş gətir**
+router.get('/number/:orderNumber', getOrderByNumber);
+
+
+export default router;
