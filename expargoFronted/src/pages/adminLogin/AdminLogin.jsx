@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAdmin } from '../../redux/reducers/AdminSlice';
+import { setCredentials } from '../../redux/reducers/authSlice'; // <-- Əlavə edildi
 import { useNavigate } from 'react-router-dom';
-import style from './AdminLogin.module.scss';  // <-- burda import əlavə et
+import style from './AdminLogin.module.scss';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -19,8 +20,15 @@ const AdminLogin = () => {
       .unwrap()
       .then((data) => {
         console.log('Login uğurlu, data:', data);
+
+        // LocalStorage-ə yaz
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+
+        // Redux store-a da yaz (mühüm hissə)
+        dispatch(setCredentials({ token: data.token, user: data.user }));
+
+        // Panelə yönləndir
         navigate('/admin/panel');
       })
       .catch((error) => {
@@ -33,6 +41,7 @@ const AdminLogin = () => {
       <h2>Admin Girişi</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {successMsg && <p style={{ color: 'green' }}>{successMsg}</p>}
+      
       <input 
         type="email" 
         placeholder="Email" 
