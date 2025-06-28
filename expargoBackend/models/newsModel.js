@@ -8,7 +8,7 @@ const newsSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-});
+},{ timestamps: true });
 
 // Yenilənmə tarixini avtomatik yeniləmək üçün middleware
 newsSchema.pre('save', function (next) {
