@@ -22,7 +22,7 @@ const AdminPanel = () => {
           FAQ
         </NavLink>
        <NavLink to="/admin/tickets" className={({ isActive }) => isActive ? style.activeLink : style.link}>
-          Müraciətlət
+          Müraciətlər
         </NavLink>
         {/* Yeni Packages linki */}
         <NavLink to="/admin/packages" className={({ isActive }) => isActive ? style.activeLink : style.link}>

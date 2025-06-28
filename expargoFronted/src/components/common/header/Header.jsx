@@ -155,7 +155,6 @@ const Header = () => {
             <li><a onClick={() => handleNavigation('/tariflər')} className={location.pathname === '/tarifler' ? style.active : ''}>Tariflər</a></li>
             <li><a onClick={() => handleNavigation('/filiallar')} className={location.pathname === '/shebekeler' ? style.active : ''}>Xidmət Şəbəkəsi</a></li>
             <li><a onClick={() => handleNavigation('/xəbərlər')} className={location.pathname === '/xeberler' ? style.active : ''}>Xəbərlər</a></li>
-            <li><a onClick={() => handleNavigation('/magazalar')} className={location.pathname === '/magazalar' ? style.active : ''}>Mağazalar</a></li>
             <li><a onClick={() => handleNavigation('/Əlaqə')} className={location.pathname === '/elaqe' ? style.active : ''}>Əlaqə</a></li>
             <li><a onClick={() => handleNavigation('/faq')} className={location.pathname === '/faq' ? style.active : ''}>FAQ</a></li>
             <div className={style.line}></div>
